@@ -8,7 +8,7 @@ import 'colors.dart';
 // ignore: must_be_immutable, camel_case_types
 class Button extends StatefulWidget {
   var textContent;
-  VoidCallback onPressed;
+  VoidCallback? onPressed;
 
   Button({Key? key, required this.textContent, required this.onPressed})
       : super(key: key);
@@ -72,6 +72,10 @@ class EditTextField extends StatefulWidget {
   var maxLine;
   var inputType;
   var decoration;
+  var validator;
+  var autovalidateMode;
+  var onChanged;
+  var input;
   TextEditingController? mController;
 
   VoidCallback? onPressed;
@@ -85,6 +89,10 @@ class EditTextField extends StatefulWidget {
       var this.inputType = TextInputType.text,
       var this.mController,
       var this.decoration,
+      var this.validator,
+      var this.onChanged,
+      var this.autovalidateMode,
+      var this.input,
       var this.maxLine = 1});
 
   @override
@@ -97,8 +105,12 @@ class EditTextFieldState extends State<EditTextField> {
   @override
   Widget build(BuildContext context) {
     if (!widget.isSecure) {
-      return TextField(
+      return TextFormField(
         controller: widget.mController,
+        autovalidateMode: widget.autovalidateMode,
+        validator: widget.validator,
+        onChanged: widget.onChanged,
+        inputFormatters: widget.input,
         keyboardType: widget.inputType,
         obscureText: widget.isPassword,
         cursorColor: colorPrimary,
@@ -118,9 +130,11 @@ class EditTextFieldState extends State<EditTextField> {
         ),
       );
     } else {
-      return TextField(
+      return TextFormField(
           controller: widget.mController,
           obscureText: widget.isPassword,
+          validator: widget.validator,
+          onChanged: widget.onChanged,
           cursorColor: colorPrimary,
           style: TextStyle(
               fontSize: widget.fontSize,

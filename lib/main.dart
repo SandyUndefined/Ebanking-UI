@@ -1,26 +1,46 @@
+import 'package:apes/screens/dashboard.dart';
 import 'package:apes/screens/splashScreen.dart';
 import 'package:apes/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:apes/routes.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    getPref();
+  }
+
+  var _loginStatus = 0;
+  getPref() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      _loginStatus = preferences.getInt("value")!;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (_) => MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Apes',
-          home: const SplashScreen(),
+          home: (_loginStatus == 1) ? const Dashboard() : const SplashScreen(),
           theme: AppThemeData.lightTheme,
           routes: routes(),
           navigatorKey: navigatorKey,

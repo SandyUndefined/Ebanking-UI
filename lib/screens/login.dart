@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:apes/model/Api.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,20 +13,44 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class Login extends StatefulWidget {
-  const Login({Key? key}) : super(key: key);
+  const Login({Key? key, required this.onSubmit}) : super(key: key);
+  final ValueChanged<String> onSubmit;
 
   @override
   State<Login> createState() => _LoginState();
 }
 
 class _LoginState extends State<Login> {
+  final phnController = TextEditingController();
+  final passController = TextEditingController();
   bool passwordVisible = false;
   bool? isRemember = false;
+  final _formKey = GlobalKey<FormState>();
+  bool _submitted = false;
+  String _phn = '';
+  String _pass = '';
 
   @override
   void initState() {
     super.initState();
     passwordVisible = false;
+  }
+
+  Future _submit() async {
+    setState(() => _submitted = true);
+    if (_formKey.currentState!.validate()) {
+      widget.onSubmit(_phn);
+      widget.onSubmit(_pass);
+    }
+    var response = await Api().login(_phn, _pass);
+    Map<String, dynamic> data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      if (!data.containsKey('key')) {
+        print(data['status']);
+      } else {
+        Api().saveKey(data["key"]);
+      }
+    }
   }
 
   @override
@@ -39,7 +66,7 @@ class _LoginState extends State<Login> {
                 /*back icon*/
                 SafeArea(
                   child: Container(
-                    padding: EdgeInsets.only(left: 8),
+                    padding: const EdgeInsets.only(left: 8),
                     alignment: Alignment.centerLeft,
                     width: MediaQuery.of(context).size.width,
                     height: 50,
@@ -75,75 +102,101 @@ class _LoginState extends State<Login> {
                   ),
                 ),
                 /*content*/
-                Padding(
-                  padding: EdgeInsets.all(25),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(hint_phone, style: primaryTextStyle(size: 16)),
-                      EditTextField(
-                        isPassword: false,
-                        inputType: TextInputType.number,
-                        decoration: country_code,
-                      ),
-                      const SizedBox(height: 25),
-                      Text(hint_password, style: primaryTextStyle(size: 16)),
-                      EditTextField(isSecure: true),
-                      const SizedBox(height: 18),
-                      Row(
-                        children: <Widget>[
-                          Checkbox(
-                            focusColor: colorPrimary,
-                            activeColor: colorPrimary,
-                            value: isRemember,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                isRemember = value;
-                              });
-                            },
-                          ),
-                          Text(lbl_remember,
-                              style: primaryTextStyle(
-                                  size: 16, color: textColorSecondary))
-                        ],
-                      ),
-                      const SizedBox(height: 18),
-                      Button(
-                        textContent: lbl_sign_in,
-                        onPressed: () {
-                          changeStatusColor(White);
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      GestureDetector(
-                        child: Center(
-                            child: Text(lbl_forgot_password,
+                Form(
+                  key: _formKey,
+                  child: Padding(
+                    padding: EdgeInsets.all(25),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(hint_phone, style: primaryTextStyle(size: 16)),
+                        EditTextField(
+                          input: [FilteringTextInputFormatter.digitsOnly],
+                          autovalidateMode: _submitted
+                              ? AutovalidateMode.onUserInteraction
+                              : AutovalidateMode.disabled,
+                          isPassword: false,
+                          inputType: TextInputType.number,
+                          decoration: country_code,
+                          validator: (text) {
+                            if (text == null || text.isEmpty) {
+                              return 'Can\'t be empty';
+                            }
+                            if (text.length != 10) {
+                              return 'Enter a valid number';
+                            }
+                            return null;
+                          },
+                          onChanged: (text) => setState(() => _phn = text),
+                        ),
+                        const SizedBox(height: 25),
+                        Text(hint_password, style: primaryTextStyle(size: 16)),
+                        EditTextField(
+                          isSecure: true,
+                          validator: (text) {
+                            if (text == null || text.isEmpty) {
+                              return 'Can\'t be empty';
+                            }
+                            return null;
+                          },
+                          onChanged: (text) => setState(() => _pass = text),
+                        ),
+                        const SizedBox(height: 18),
+                        Row(
+                          children: <Widget>[
+                            Checkbox(
+                              focusColor: colorPrimary,
+                              activeColor: colorPrimary,
+                              value: isRemember,
+                              onChanged: (bool? value) {
+                                setState(() {
+                                  isRemember = value;
+                                });
+                              },
+                            ),
+                            Text(lbl_remember,
                                 style: primaryTextStyle(
-                                    color: colorPrimary, size: 16))),
-                        onTap: () {},
-                      ),
-                      const SizedBox(height: 18),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        // crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            lbl_newUser,
-                            style: boldTextStyle(
-                                size: 18, color: textSecondaryColor),
-                          ),
-                          GestureDetector(
-                            child: Center(
-                                child: Text(lbl_sign_up,
-                                    style: primaryTextStyle(
-                                        color: colorPrimary, size: 16))),
-                            onTap: () {
-                              Navigator.pushNamed(context, '/register');
-                            },
-                          ),
-                        ],
-                      )
-                    ],
+                                    size: 16, color: textColorSecondary))
+                          ],
+                        ),
+                        const SizedBox(height: 18),
+                        Button(
+                          textContent: lbl_sign_in,
+                          onPressed: _phn.isNotEmpty && _pass.isNotEmpty
+                              ? _submit
+                              : null,
+                        ),
+                        const SizedBox(height: 16),
+                        GestureDetector(
+                          child: Center(
+                              child: Text(lbl_forgot_password,
+                                  style: primaryTextStyle(
+                                      color: colorPrimary, size: 16))),
+                          onTap: () {},
+                        ),
+                        const SizedBox(height: 18),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              lbl_newUser,
+                              style: boldTextStyle(
+                                  size: 18, color: textSecondaryColor),
+                            ),
+                            GestureDetector(
+                              child: Center(
+                                  child: Text(lbl_sign_up,
+                                      style: primaryTextStyle(
+                                          color: colorPrimary, size: 16))),
+                              onTap: () {
+                                Navigator.pushNamed(context, '/register');
+                              },
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ],
