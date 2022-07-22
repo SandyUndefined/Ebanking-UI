@@ -1,15 +1,19 @@
+import 'dart:convert';
+
+import 'package:apes/model/authService.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/strings.dart';
 import 'package:apes/utils/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
-
+  const Register({Key? key, required this.onSubmit}) : super(key: key);
+  final ValueChanged<String> onSubmit;
   @override
   State<Register> createState() => _RegisterState();
 }
@@ -17,11 +21,45 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   bool passwordVisible = false;
   bool isRemember = false;
+  final _formKey = GlobalKey<FormState>();
+  bool _submitted = false;
+  String _fullName = '';
+  String _email = '';
+  String _phn = '';
+  String _pass = '';
+  String _repass = '';
+  static final RegExp nameRegExp = RegExp('[a-zA-Z]');
 
   @override
   void initState() {
     super.initState();
     passwordVisible = false;
+  }
+
+  Future<void> _submit() async {
+    setState(() => _submitted = true);
+    if (_formKey.currentState!.validate()) {
+      widget.onSubmit(_fullName);
+      widget.onSubmit(_email);
+      widget.onSubmit(_phn);
+      widget.onSubmit(_pass);
+      widget.onSubmit(_repass);
+    }
+
+    var response =
+        await Auth().register(_fullName, _email, _phn, _pass, "West Bengal");
+    Map<String, dynamic> data = jsonDecode(response.body);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print("dataaa");
+      if (data['status'] == "OTP") {
+        print(data['status'] == "OTP");
+        Auth().saveKey(data["key"]);
+        Navigator.pushNamed(context, '/otp');
+      } else if (data['satuts'] == 'err') {
+        print(data['result']);
+      }
+    }
   }
 
   @override
@@ -72,51 +110,146 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               /*content*/
-              Padding(
-                padding: EdgeInsets.all(25),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(hint_phone, style: primaryTextStyle(size: 16)),
-                    EditTextField(
-                      isPassword: false,
-                      inputType: TextInputType.number,
-                      decoration: country_code,
-                    ),
-                    SizedBox(height: 25),
-                    Text(hint_password, style: primaryTextStyle(size: 16)),
-                    EditTextField(isSecure: true),
-                    SizedBox(height: 25),
-                    Text(hint_re_password, style: primaryTextStyle(size: 16)),
-                    EditTextField(isSecure: true),
-                    SizedBox(height: 50),
-                    Button(
-                        textContent: lbl_sign_up,
-                        onPressed: () {
-                          changeStatusColor(White);
-                        }),
-                    const SizedBox(height: 18),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          lbl_already,
-                          style: boldTextStyle(
-                              size: 18, color: textSecondaryColor),
-                        ),
-                        GestureDetector(
-                          child: Center(
-                              child: Text(lbl_sign_in,
-                                  style: primaryTextStyle(
-                                      color: colorPrimary, size: 16))),
-                          onTap: () {
-                            Navigator.pushNamed(context, '/login');
-                          },
-                        ),
-                      ],
-                    )
-                  ],
+              Form(
+                key: _formKey,
+                child: Padding(
+                  padding: EdgeInsets.all(25),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(lbl_fullName, style: primaryTextStyle(size: 16)),
+                      EditTextField(
+                        isPassword: false,
+                        autovalidateMode: _submitted
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return 'Can\'t be empty';
+                          }
+                          if ((!nameRegExp.hasMatch(text)) &&
+                              (text.length < 6)) {
+                            // check for special char
+                            return 'Enter a valid name';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) => setState(() => _fullName = text),
+                      ),
+                      const SizedBox(height: 25),
+                      Text(hint_email, style: primaryTextStyle(size: 16)),
+                      EditTextField(
+                        isPassword: false,
+                        inputType: TextInputType.emailAddress,
+                        autovalidateMode: _submitted
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        validator: (text) {
+                          String pattern =
+                              r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                              r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+                              r"{0,253}[a-zA-Z0-9])?)*$";
+                          RegExp regex = RegExp(pattern);
+                          if (text == null || text.isEmpty) {
+                            return 'Can\'t be empty';
+                          }
+                          if (!regex.hasMatch(text)) {
+                            // check for email validation
+                            return 'Enter a valid email';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) => setState(() => _email = text),
+                      ),
+                      SizedBox(height: 25),
+                      Text(hint_phone, style: primaryTextStyle(size: 16)),
+                      EditTextField(
+                        input: [FilteringTextInputFormatter.digitsOnly],
+                        autovalidateMode: _submitted
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        isPassword: false,
+                        inputType: TextInputType.number,
+                        decoration: country_code,
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return 'Can\'t be empty';
+                          }
+                          if (text.length != 10) {
+                            return 'Enter a valid number';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) => setState(() => _phn = text),
+                      ),
+                      SizedBox(height: 25),
+                      Text(hint_password, style: primaryTextStyle(size: 16)),
+                      EditTextField(
+                        isSecure: true,
+                        autovalidateMode: _submitted
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return 'Can\'t be empty';
+                          }
+                          if (text.length < 6) {
+                            return 'Enter a valid number';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) => setState(() => _pass = text),
+                      ),
+                      SizedBox(height: 25),
+                      Text(hint_re_password, style: primaryTextStyle(size: 16)),
+                      EditTextField(
+                        isSecure: true,
+                        autovalidateMode: _submitted
+                            ? AutovalidateMode.onUserInteraction
+                            : AutovalidateMode.disabled,
+                        validator: (text) {
+                          if (text == null || text.isEmpty) {
+                            return 'Can\'t be empty';
+                          }
+                          if (_pass != text) {
+                            return 'Password doesn\'t match';
+                          }
+                          return null;
+                        },
+                        onChanged: (text) => setState(() => _repass = text),
+                      ),
+                      SizedBox(height: 50),
+                      Button(
+                          textContent: lbl_sign_up,
+                          onPressed: _fullName.isNotEmpty &&
+                                  _email.isNotEmpty &&
+                                  _phn.isNotEmpty &&
+                                  _pass.isNotEmpty
+                              ? _submit
+                              : null),
+                      const SizedBox(height: 18),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            lbl_already,
+                            style: boldTextStyle(
+                                size: 18, color: textSecondaryColor),
+                          ),
+                          GestureDetector(
+                            child: Center(
+                                child: Text(lbl_sign_in,
+                                    style: primaryTextStyle(
+                                        color: colorPrimary, size: 16))),
+                            onTap: () {
+                              Navigator.pushNamed(context, '/login');
+                            },
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ],

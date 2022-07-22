@@ -1,5 +1,7 @@
-import 'package:apes/screens/dashboard.dart';
+import 'package:apes/model/authService.dart';
+import 'package:apes/screens/homepage.dart';
 import 'package:apes/screens/splashScreen.dart';
+import 'package:apes/utils/geolocator.dart';
 import 'package:apes/utils/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:apes/routes.dart';
@@ -24,6 +26,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     getPref();
+    askPermission();
   }
 
   var _loginStatus = 0;
@@ -40,7 +43,7 @@ class _MyAppState extends State<MyApp> {
       builder: (_) => MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Apes',
-          home: (_loginStatus == 1) ? const Dashboard() : const SplashScreen(),
+          home: (_loginStatus == 1) ? const HomePage() : const SplashScreen(),
           theme: AppThemeData.lightTheme,
           routes: routes(),
           navigatorKey: navigatorKey,

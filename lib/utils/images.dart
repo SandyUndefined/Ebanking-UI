@@ -5,6 +5,8 @@ const slider_2 =
     "https://assets.iqonic.design/old-themeforest-images/prokit/images/theme2/theme2_walk_2.png";
 const slider_3 =
     "https://assets.iqonic.design/old-themeforest-images/prokit/images/theme2/theme2_walk_3.png";
+const verification =
+    "https://assets.iqonic.design/old-themeforest-images/prokit/images/theme5/t5_verification.png";
 const t2Slider1 = "images/theme2_slider_1.png";
 const t2Slider2 = "images/theme2_slider_2.png";
 const t2Slider3 = "images/theme2_slider_3.png";

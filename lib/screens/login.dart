@@ -1,7 +1,8 @@
 import 'dart:convert';
-
 import 'package:apes/model/Api.dart';
+import 'package:apes/model/authService.dart';
 import 'package:apes/utils/colors.dart';
+import 'package:apes/utils/geolocator.dart';
 import 'package:apes/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +22,6 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final phnController = TextEditingController();
-  final passController = TextEditingController();
   bool passwordVisible = false;
   bool? isRemember = false;
   final _formKey = GlobalKey<FormState>();
@@ -33,22 +32,33 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
+    // const Geo();
     passwordVisible = false;
   }
 
-  Future _submit() async {
+  Future<void> _submit() async {
     setState(() => _submitted = true);
     if (_formKey.currentState!.validate()) {
       widget.onSubmit(_phn);
       widget.onSubmit(_pass);
     }
-    var response = await Api().login(_phn, _pass);
+    var response = await Auth().login(_phn, _pass);
     Map<String, dynamic> data = jsonDecode(response.body);
     if (response.statusCode == 200) {
-      if (!data.containsKey('key')) {
-        print(data['status']);
-      } else {
-        Api().saveKey(data["key"]);
+      if (data['status'] == "OTP") {
+        print(data['status'] == "OTP");
+        Auth().saveKey(data["key"]);
+        Navigator.pushNamed(context, '/otp');
+      } else if (data['satuts'] == 'err') {
+        print(data['result']);
+      } else if (data['status'] == 'success') {
+        Navigator.pushNamed(context, '/home');
+      } else if (data['status'] == 'err_pwd') {
+        print("password wrong");
+      } else if (data['status'] == 'not_exists') {
+        print("User not exists");
+      } else if (data['status'] == 'block') {
+        print("Account blocked");
       }
     }
   }
