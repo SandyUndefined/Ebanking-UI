@@ -1,3 +1,4 @@
+import 'package:apes/utils/constant.dart';
 import 'package:apes/utils/strings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -187,6 +188,59 @@ Widget shareIcon(String iconPath, Color tintColor) {
   return Padding(
     padding: const EdgeInsets.only(left: 20, right: 20),
     child: Image.asset(iconPath, width: 28, height: 28, fit: BoxFit.fill),
+  );
+}
+
+Text headerText(var text) {
+  return Text(
+    text,
+    maxLines: 2,
+    style: const TextStyle(
+        fontFamily: font_bold, fontSize: 22, color: textPrimaryColor),
+  );
+}
+
+Widget text(
+  String? text, {
+  var fontSize = textSizeLargeMedium,
+  Color? textColor,
+  var fontFamily,
+  var isCentered = false,
+  var maxLine = 1,
+  var latterSpacing = 0.5,
+  bool textAllCaps = false,
+  var isLongText = false,
+  bool lineThrough = false,
+}) {
+  return Text(
+    textAllCaps ? text!.toUpperCase() : text!,
+    textAlign: isCentered ? TextAlign.center : TextAlign.start,
+    maxLines: isLongText ? null : maxLine,
+    overflow: TextOverflow.ellipsis,
+    style: TextStyle(
+      fontFamily: fontFamily ?? null,
+      fontSize: fontSize,
+      color: textColor ?? textSecondaryColor,
+      height: 1.5,
+      letterSpacing: latterSpacing,
+      decoration:
+          lineThrough ? TextDecoration.lineThrough : TextDecoration.none,
+    ),
+  );
+}
+
+BoxDecoration boxDecoration(
+    {double radius = 2,
+    Color color = Colors.transparent,
+    Color? bgColor,
+    var showShadow = false}) {
+  return BoxDecoration(
+    color: bgColor,
+    boxShadow: showShadow
+        ? defaultBoxShadow(shadowColor: shadowColorGlobal)
+        : [const BoxShadow(color: Colors.transparent)],
+    border: Border.all(color: color),
+    borderRadius: BorderRadius.all(Radius.circular(radius)),
   );
 }
 

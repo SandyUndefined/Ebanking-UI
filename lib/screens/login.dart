@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:apes/model/Api.dart';
-import 'package:apes/model/authService.dart';
+import 'package:apes/model/auth.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/geolocator.dart';
 import 'package:apes/utils/widgets.dart';
@@ -32,26 +32,34 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     super.initState();
-    // const Geo();
     passwordVisible = false;
   }
 
   Future<void> _submit() async {
+    print("asdadad");
     setState(() => _submitted = true);
     if (_formKey.currentState!.validate()) {
       widget.onSubmit(_phn);
       widget.onSubmit(_pass);
     }
     var response = await Auth().login(_phn, _pass);
+    print(response.body);
     Map<String, dynamic> data = jsonDecode(response.body);
     if (response.statusCode == 200) {
       if (data['status'] == "OTP") {
         print(data['status'] == "OTP");
-        Auth().saveKey(data["key"]);
+        Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
+            data["user"]["USER_LOGIN"], data["user"]["ID"]);
+        Auth().saveKey(data["SESSION_ID"]);
+        Auth().saveCSRF(data["csrf"]);
         Navigator.pushNamed(context, '/otp');
       } else if (data['satuts'] == 'err') {
         print(data['result']);
       } else if (data['status'] == 'success') {
+        Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
+            data["user"]["USER_LOGIN"], data["user"]["ID"]);
+        Auth().saveKey(data["SESSION_ID"]);
+        Auth().saveCSRF(data["csrf"]);
         Navigator.pushNamed(context, '/home');
       } else if (data['status'] == 'err_pwd') {
         print("password wrong");
@@ -60,6 +68,8 @@ class _LoginState extends State<Login> {
       } else if (data['status'] == 'block') {
         print("Account blocked");
       }
+    } else {
+      print(response.statusCode);
     }
   }
 

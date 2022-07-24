@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:apes/model/authService.dart';
+import 'package:apes/model/auth.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/strings.dart';
 import 'package:apes/utils/widgets.dart';
@@ -28,6 +28,7 @@ class _RegisterState extends State<Register> {
   String _phn = '';
   String _pass = '';
   String _repass = '';
+  String _key = '';
   static final RegExp nameRegExp = RegExp('[a-zA-Z]');
 
   @override
@@ -50,14 +51,20 @@ class _RegisterState extends State<Register> {
         await Auth().register(_fullName, _email, _phn, _pass, "West Bengal");
     Map<String, dynamic> data = jsonDecode(response.body);
     print(response.statusCode);
+    print(response.body);
     if (response.statusCode == 200) {
       print("dataaa");
       if (data['status'] == "OTP") {
-        print(data['status'] == "OTP");
-        Auth().saveKey(data["key"]);
+        _key = data['key'];
+        Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
+            data["user"]["USER_LOGIN"], data["user"]["ID"]);
         Navigator.pushNamed(context, '/otp');
-      } else if (data['satuts'] == 'err') {
+      } else if (data['status'] == 'err') {
         print(data['result']);
+      } else if (data['status'] == 'success') {
+        Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
+            data["user"]["USER_LOGIN"], data["user"]["ID"]);
+        Navigator.pushNamed(context, '/login');
       }
     }
   }

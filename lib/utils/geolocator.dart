@@ -1,4 +1,4 @@
-import 'package:apes/model/authService.dart';
+import 'package:apes/model/auth.dart';
 import 'package:geolocator/geolocator.dart';
 
 /// Determine the current position of the device.
@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 /// When the location services are not enabled or permissions
 /// are denied the `Future` will return an error.
 askPermission() async {
+  bool haspermission = false;
   bool serviceEnabled;
   LocationPermission permission;
 
@@ -15,7 +16,7 @@ askPermission() async {
     // Location services are not enabled don't continue
     // accessing the position and request users of the
     // App to enable the location services.
-    return Future.error('Location services are disabled.');
+    return print('Location services are disabled.');
   }
 
   permission = await Geolocator.checkPermission();
@@ -27,14 +28,18 @@ askPermission() async {
       // Android's shouldShowRequestPermissionRationale
       // returned true. According to Android guidelines
       // your App should show an explanatory UI now.
-      return Future.error('Location permissions are denied');
+      return print('Location permissions are denied');
     }
+  } else {
+    haspermission = true;
   }
 
   if (permission == LocationPermission.deniedForever) {
     // Permissions are denied forever, handle appropriately.
-    return Future.error(
+    return print(
         'Location permissions are permanently denied, we cannot request permissions.');
+  } else {
+    haspermission = true;
   }
   Auth().getLocation();
   // When we reach here, permissions are granted and we can

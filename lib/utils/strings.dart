@@ -1,12 +1,17 @@
 // ignore_for_file: constant_identifier_names
 
-const app_name = "APES";
+const app_name = "AEPS";
 const font_bold = "theme2fonts/googlesansbold.ttf";
 const font_medium = "theme2fonts/googlesansMedium.ttf";
 const font_regular = "theme2fonts/googlesansregular.ttf";
 const font_semi_bold = "theme2fonts/googlesansMedium.ttf";
 const lbl_sign_in_header = "Sign In/";
 const lbl_sign_up_header = "Sign Up/";
+const lbl_Banking_Service = "Banking & Banking";
+const lbl_Recharge = "Recharge & Bill Payments";
+const lbl_Adhar_withdrawl = "Aadhar Withdrawl";
+const lbl_Balance_Inquiry = "Balance Inquiry";
+const lbl_Mini_Statement = "Mini Statement";
 const lbl_sign_up = "Sign Up";
 const hint_email = "Email";
 const hint_phone = "Phone Number";
@@ -87,3 +92,64 @@ const Cards = "Cards";
 const Dialog = "Dialog";
 const Bottom_Sheet = "Bottom Sheet";
 const Image_Slider = "Image Slider";
+
+const t5_quickly_and_easily = " Quickly and easily";
+const t5_shopping_online = " Shopping Online";
+const t5_manage_your_finance = " Manage your Finance";
+const t5_welcome_to_mollet = " Welcome to Mollet";
+const t5_sign_in = " Sign In";
+const t5_log_in = " Log In";
+const t5_note_registration =
+    " Please enter your mobile number, then we will send OTP to verify";
+const t5_lbl_registration = " Registration";
+const t5_hint_mobile = " Phone Number";
+const t5_continue = " Continue";
+const t5_register = " Register";
+const t5_heading_login = " Digital Wallets";
+const t5_hint_password = " Password";
+const them5_lbl_fingerprint_authentication = " Fingerprint Authentication";
+const t5_note_user_fingerprint = " Please use fingerprint to login";
+const t5_lbl_verification = " Verification";
+const t5_note_verification =
+    " Please enter code that sent to your phone number in the form below.This code will expired in 00:30 seconds";
+const t5_lbl_set_pawd = " Set your password";
+const t5_hint_confirm_password = " Confirm Password";
+const t5_lbl_fingerprint = " Fingerprint";
+const t5_note_finger_set = " Please lift and rest your finger";
+const t5_lbl_profile = " Profile";
+const t5_notification = " Notification";
+const t5_lbl_listing = " History";
+const t5_home = " Home";
+const t5_lbl_welcome_to_bottom_n_navigation_bar =
+    " Welcome to Bottom\nNavigation Bar";
+const t5_lbl_welcome_to_bottom_sheet = " Welcome to BottomSheet";
+const title_activity_scrolling = " ScrollingActivity";
+const action_settings = " Settings";
+const t5_emily_jonas = " Emily Jonas";
+const t5_txt_phone_number = "8595652145";
+const t5_statistics = " Statistics";
+const t5_manage_wallet = " Manage Wallet";
+const t5_support = " Support";
+const t5_settings = " Settings";
+const t5_fast_payment = " Fast Payment";
+const t5_language = " Language";
+const t5_fingerprint = " Fingerprint";
+const t5_gift = " Gift";
+const t5_discounts = " Discounts";
+const t5_hint_search = " Search";
+const t5_recently_contact = " Recently Contact";
+const t5_other_contact = "Other Contact";
+const t5_contact_list = " Contact List";
+const t5_bills = " Bills";
+const t5_image_slider = " Image Slider";
+const t5_history = " History";
+const t5_resend = " Resend";
+const t5_hint_phone_no = "Phone Number";
+const t5_forgot_pswd = "Forgot Password?";
+const t5_avl_balance = "Available Balance";
+const t5_account_number = "Account Number";
+const t5_username = "Hi,John";
+const t5_ac_no = "Account Number";
+const acc_success = "Account Created";
+const verify_acc =
+    " Please verify your account. We have sent verification to your Mail.";

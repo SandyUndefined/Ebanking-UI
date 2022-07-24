@@ -20,7 +20,11 @@ Map<String, WidgetBuilder> routes() {
             print(value);
           },
         ),
-    '/otp': (context) => const Otp(),
+    '/otp': (context) => Otp(
+          onSubmit: (String value) {
+            print(value);
+          },
+        ),
     '/home': (context) => const HomePage(),
   };
 }

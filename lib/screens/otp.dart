@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:apes/model/auth.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/images.dart';
 import 'package:apes/utils/strings.dart';
@@ -11,13 +14,45 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class Otp extends StatefulWidget {
-  const Otp({Key? key}) : super(key: key);
+  const Otp({Key? key, required this.onSubmit}) : super(key: key);
+  final ValueChanged<String> onSubmit;
 
   @override
   State<Otp> createState() => _OtpState();
 }
 
 class _OtpState extends State<Otp> {
+  final _formKey = GlobalKey<FormState>();
+  bool _submitted = false;
+  String _otp = '';
+
+  Future<void> _submit() async {
+    setState(() => _submitted = true);
+    if (_formKey.currentState!.validate()) {
+      widget.onSubmit(_otp);
+    }
+    var response = await Auth().verifyLoginOtp(_otp);
+    print(response.body);
+    Map<String, dynamic> data = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      if (data['status'] == "OTP") {
+        Navigator.pushNamed(context, '/otp');
+      } else if (data['satuts'] == 'err') {
+        print(data['result']);
+      } else if (data['status'] == 'success') {
+        Navigator.pushNamed(context, '/home');
+      } else if (data['status'] == 'er') {
+        print("Opps there is a Mistake");
+      } else if (data['status'] == 'err_otp') {
+        print("Invalid OTP");
+      } else if (data['status'] == 'exists') {
+        print("User Already Exists");
+      }
+    } else {
+      print(response.statusCode);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
@@ -58,20 +93,24 @@ class _OtpState extends State<Otp> {
                         borderRadius:
                             const BorderRadius.all(Radius.circular(4))),
                     padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: <Widget>[
-                        const SizedBox(height: 10),
-                        PinEntryTextField(
-                          fields: 6,
-                          fontSize: 20,
-                          onSubmit: (value) {
-                            print(value);
-                          },
-                        ),
-                        const SizedBox(height: 24),
-                        Button(textContent: opt_confirm, onPressed: () {})
-                      ],
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          const SizedBox(height: 10),
+                          PinEntryTextField(
+                            fields: 6,
+                            fontSize: 20,
+                            onSubmit: (value) => setState(() => _otp = value),
+                          ),
+                          const SizedBox(height: 24),
+                          Button(
+                            textContent: opt_confirm,
+                            onPressed: _otp.isNotEmpty ? _submit : null,
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   GestureDetector(
