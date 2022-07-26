@@ -153,3 +153,4 @@ const t5_ac_no = "Account Number";
 const acc_success = "Account Created";
 const verify_acc =
     " Please verify your account. We have sent verification to your Mail.";
+const logout = "Logout";

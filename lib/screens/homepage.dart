@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:apes/model/auth.dart';
 import 'package:apes/model/user.dart';
 import 'package:apes/utils/colors.dart';
@@ -55,6 +57,16 @@ class _HomePageState extends State<HomePage> {
     print(response.body);
   }
 
+  Future<void> _logout() async {
+    var response = await Auth().logout();
+    if (response.statusCode == 200) {
+      SharedPreferences localStorage = await SharedPreferences.getInstance();
+      localStorage.remove('user');
+      localStorage.remove('token');
+      Navigator.popAndPushNamed(context, '/login');
+    }
+  }
+
   void changeSldier(int index) {
     setState(() {
       currentIndexPage = index;
@@ -88,18 +100,24 @@ class _HomePageState extends State<HomePage> {
                           radius: 25,
                         ),
                         const SizedBox(width: 16),
-                        text(name,
+                        text(name.capitalizeFirstLetter(),
                             textColor: t5White,
                             fontSize: textSizeNormal,
                             fontFamily: fontMedium)
                       ],
                     ),
-                    SvgPicture.asset(t5_options,
-                        width: 25, height: 25, color: t5White)
+                    InkWell(
+                      splashColor: White,
+                      onTap: _logout,
+                      child: text(logout,
+                          textColor: t5White,
+                          fontSize: textSizeMedium,
+                          fontFamily: fontMedium),
+                    ),
                   ],
                 ),
               ),
-              SingleChildScrollView(
+              Padding(
                 padding: const EdgeInsets.only(top: 100),
                 child: Container(
                   padding: const EdgeInsets.only(top: 28),

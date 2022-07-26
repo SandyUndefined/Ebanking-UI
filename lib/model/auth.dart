@@ -109,6 +109,7 @@ class Auth {
 
   getData() async {
     await _getCSRF();
+    await _getKey();
     print(_setAuthHeaders());
     String uri = "$baseUrlUser/user_bal";
     try {
@@ -118,8 +119,21 @@ class Auth {
     }
   }
 
-  _setAuthHeaders() =>
-      {'Accept': 'application/json', 'Authorization': 'Bearer $key'};
+  logout() async {
+    String uri = "$baseUrlUser/user_bal";
+    try {
+      return await http.get(Uri.parse(uri), headers: _setHeaders());
+    } catch (e) {
+      return e;
+    }
+  }
+
+  _setAuthHeaders() => {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Connection': 'keep-alive',
+        'Cookie': 'laravel_session=$csrf'
+      };
 
   getLocation() async {
     position = await Geolocator.getCurrentPosition(
