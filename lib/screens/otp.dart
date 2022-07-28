@@ -31,25 +31,20 @@ class _OtpState extends State<Otp> {
     if (_formKey.currentState!.validate()) {
       widget.onSubmit(_otp);
     }
-    var response = await Auth().verifyLoginOtp(_otp);
-    print(response.body);
-    Map<String, dynamic> data = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      if (data['status'] == "OTP") {
-        Navigator.pushNamed(context, '/otp');
-      } else if (data['satuts'] == 'err') {
-        print(data['result']);
-      } else if (data['status'] == 'success') {
-        Navigator.pushNamed(context, '/home');
-      } else if (data['status'] == 'er') {
-        print("Opps there is a Mistake");
-      } else if (data['status'] == 'err_otp') {
-        print("Invalid OTP");
-      } else if (data['status'] == 'exists') {
-        print("User Already Exists");
-      }
-    } else {
-      print(response.statusCode);
+    var data = await Auth().verifyLoginOtp(_otp);
+    print(data);
+    if (data['status'] == "OTP") {
+      Navigator.pushNamed(context, '/otp');
+    } else if (data['satuts'] == 'err') {
+      print(data['result']);
+    } else if (data['status'] == 'success') {
+      Navigator.pushNamed(context, '/home');
+    } else if (data['status'] == 'er') {
+      print("Opps there is a Mistake");
+    } else if (data['status'] == 'wrong_otp') {
+      print("Invalid OTP");
+    } else if (data['status'] == 'exists') {
+      print("User Already Exists");
     }
   }
 

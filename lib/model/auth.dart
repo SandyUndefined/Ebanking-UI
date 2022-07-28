@@ -10,51 +10,69 @@ class Auth {
   late Position position;
   String long = "";
   String lati = "";
+  Map<String, String> headers = {'Accept': 'application/json'};
 
-  var status;
-  var key;
-  var csrf;
-
-  _getKey() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    key = prefs.getString('key');
+  void updateCookie(http.Response response) {
+    String? rawCookie = response.headers['set-cookie'];
+    print("this is rawCookie $rawCookie");
+    if (rawCookie != null) {
+      int index = rawCookie.indexOf(';');
+      headers['cookie'] =
+          (index == -1) ? rawCookie : rawCookie.substring(0, index);
+    }
   }
 
-  _getCSRF() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    csrf = prefs.getString('csrf');
-    print(csrf);
-  }
+  // _getKey() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   token = prefs.getString('key');
+  //   print("this is Key $token");
+  // }
 
-  _setHeaders() => {'Accept': 'application/json'};
+  // getSessionId() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   sessionId = prefs.getString('SessionID');
+  //   print("this is seesion ID $sessionId");
+  // }
+
+  // _getCSRF() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   csrf = prefs.getString('csrf');
+  //   print("this is seesion ID $csrf");
+  // }
+
+  // _setHeaders() => {'Accept': 'application/json'};
 
   login(String phn, String password) async {
     await getLocation();
     String uri = "$baseUrl/User_Login";
     try {
-      return await http.post(Uri.parse(uri), headers: _setHeaders(), body: {
-        "number": phn,
-        "password": password,
-        "long": long,
-        "lati": lati
-      });
+      http.Response response = await http.post(Uri.parse(uri),
+          headers: headers,
+          body: {
+            "number": phn,
+            "password": password,
+            "long": long,
+            "lati": lati
+          });
+      updateCookie(response);
+      return json.decode(response.body);
     } catch (e) {
       return e;
     }
   }
 
-  saveCSRF(String csrf) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    pref.setString('csrf', csrf);
-  }
+  // saveCSRF(String csrf) async {
+  //   SharedPreferences pref = await SharedPreferences.getInstance();
+  //   pref.setString('csrf', csrf);
+  // }
 
   register(
       String name, String email, String phn, String pass, String state) async {
     await getLocation();
-
     String uri = "$baseUrl/Register_new";
     try {
-      return await http.post(Uri.parse(uri), headers: _setHeaders(), body: {
+      http.Response response =
+          await http.post(Uri.parse(uri), headers: headers, body: {
         "name": name,
         "mobile": phn,
         "email": email,
@@ -65,6 +83,8 @@ class Auth {
         "ref_id": "ADMIN",
         "device": "APP",
       });
+      updateCookie(response);
+      return json.decode(response.body);
     } catch (e) {
       return e;
     }
@@ -77,12 +97,13 @@ class Auth {
     String uri = "$baseUrl/verify_login_otp";
 
     try {
-      return await http.post(Uri.parse(uri), headers: _setHeaders(), body: {
+      http.Response response =
+          await http.post(Uri.parse(uri), headers: headers, body: {
         "otp": otp,
         "key": prefs.getString('key'),
-        "long": long,
-        "lati": lati,
       });
+      updateCookie(response);
+      return json.decode(response.body);
     } catch (e) {
       return e;
     }
@@ -102,18 +123,23 @@ class Auth {
     // print(prefs.getString('mobile'));
   }
 
-  saveKey(String key) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('key', key);
-  }
+  // saveKey(String key) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('key', key);
+  // }
+
+  // saveSessionId(String key) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('SessionID', key);
+  //   print(prefs.getString('SessionID'));
+  // }
 
   getData() async {
-    await _getCSRF();
-    await _getKey();
-    print(_setAuthHeaders());
     String uri = "$baseUrlUser/user_bal";
     try {
-      return await http.get(Uri.parse(uri), headers: _setAuthHeaders());
+      http.Response response = await http.get(Uri.parse(uri), headers: headers);
+      updateCookie(response);
+      return response.body;
     } catch (e) {
       return e;
     }
@@ -122,18 +148,19 @@ class Auth {
   logout() async {
     String uri = "$baseUrlUser/user_bal";
     try {
-      return await http.get(Uri.parse(uri), headers: _setHeaders());
+      http.Response response = await http.get(Uri.parse(uri), headers: headers);
+      updateCookie(response);
+      return json.decode(response.body);
     } catch (e) {
       return e;
     }
   }
 
-  _setAuthHeaders() => {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Connection': 'keep-alive',
-        'Cookie': 'laravel_session=$csrf'
-      };
+  // _setAuthHeaders() => {
+  //       'Accept': 'application/json',
+  //       'Connection': 'keep-alive',
+  //       // 'Authorization': 'Bearer $token',
+  //     };
 
   getLocation() async {
     position = await Geolocator.getCurrentPosition(

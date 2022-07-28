@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'package:apes/model/Api.dart';
 import 'package:apes/model/auth.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/geolocator.dart';
@@ -42,34 +41,25 @@ class _LoginState extends State<Login> {
       widget.onSubmit(_phn);
       widget.onSubmit(_pass);
     }
-    var response = await Auth().login(_phn, _pass);
-    print(response.body);
-    Map<String, dynamic> data = jsonDecode(response.body);
-    if (response.statusCode == 200) {
-      if (data['status'] == "OTP") {
-        print(data['status'] == "OTP");
-        Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
-            data["user"]["USER_LOGIN"], data["user"]["ID"]);
-        Auth().saveKey(data["SESSION_ID"]);
-        Auth().saveCSRF(data["csrf"]);
-        Navigator.pushNamed(context, '/otp');
-      } else if (data['satuts'] == 'err') {
-        print(data['result']);
-      } else if (data['status'] == 'success') {
-        Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
-            data["user"]["USER_LOGIN"], data["user"]["ID"]);
-        Auth().saveKey(data["SESSION_ID"]);
-        Auth().saveCSRF(data["csrf"]);
-        Navigator.pushNamed(context, '/home');
-      } else if (data['status'] == 'err_pwd') {
-        print("password wrong");
-      } else if (data['status'] == 'not_exists') {
-        print("User not exists");
-      } else if (data['status'] == 'block') {
-        print("Account blocked");
-      }
-    } else {
-      print(response.statusCode);
+    var data = await Auth().login(_phn, _pass);
+    print(data);
+    if (data['status'] == "OTP") {
+      print(data['status'] == "OTP");
+      Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
+          data["user"]["USER_LOGIN"], data["user"]["ID"]);
+      Navigator.pushNamed(context, '/otp');
+    } else if (data['satuts'] == 'err') {
+      print(data['result']);
+    } else if (data['status'] == 'success') {
+      Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
+          data["user"]["USER_LOGIN"], data["user"]["ID"]);
+      Navigator.pushNamed(context, '/home');
+    } else if (data['status'] == 'err_pwd') {
+      print("password wrong");
+    } else if (data['status'] == 'not_exists') {
+      print("User not exists");
+    } else if (data['status'] == 'block') {
+      print("Account blocked");
     }
   }
 

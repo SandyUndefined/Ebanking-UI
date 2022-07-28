@@ -51,15 +51,15 @@ class _HomePageState extends State<HomePage> {
       print(prefs.getString('name'));
       name = prefs.getString('name')!;
     });
-    var response = await Auth().getData();
+    var data = await Auth().getData();
     print(prefs.getInt('id'));
-    print(response.statusCode);
-    print(response.body);
+    print(data);
   }
 
   Future<void> _logout() async {
-    var response = await Auth().logout();
-    if (response.statusCode == 200) {
+    var data = await Auth().logout();
+    print(data);
+    if (data['status'] == "success") {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('user');
       localStorage.remove('token');

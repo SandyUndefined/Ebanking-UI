@@ -47,25 +47,20 @@ class _RegisterState extends State<Register> {
       widget.onSubmit(_repass);
     }
 
-    var response =
+    var data =
         await Auth().register(_fullName, _email, _phn, _pass, "West Bengal");
-    Map<String, dynamic> data = jsonDecode(response.body);
-    print(response.statusCode);
-    print(response.body);
-    if (response.statusCode == 200) {
-      print("dataaa");
-      if (data['status'] == "OTP") {
-        _key = data['key'];
-        Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
-            data["user"]["USER_LOGIN"], data["user"]["ID"]);
-        Navigator.pushNamed(context, '/otp');
-      } else if (data['status'] == 'err') {
-        print(data['result']);
-      } else if (data['status'] == 'success') {
-        Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
-            data["user"]["USER_LOGIN"], data["user"]["ID"]);
-        Navigator.pushNamed(context, '/login');
-      }
+    print(data);
+    if (data['status'] == "OTP") {
+      _key = data['key'];
+      Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
+          data["user"]["USER_LOGIN"], data["user"]["ID"]);
+      Navigator.pushNamed(context, '/otp');
+    } else if (data['status'] == 'err') {
+      print(data['result']);
+    } else if (data['status'] == 'success') {
+      Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
+          data["user"]["USER_LOGIN"], data["user"]["ID"]);
+      Navigator.pushNamed(context, '/login');
     }
   }
 
