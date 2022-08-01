@@ -10,69 +10,35 @@ class Auth {
   late Position position;
   String long = "";
   String lati = "";
-  Map<String, String> headers = {'Accept': 'application/json'};
-
-  void updateCookie(http.Response response) {
-    String? rawCookie = response.headers['set-cookie'];
-    print("this is rawCookie $rawCookie");
-    if (rawCookie != null) {
-      int index = rawCookie.indexOf(';');
-      headers['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
-    }
-  }
-
-  // _getKey() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   token = prefs.getString('key');
-  //   print("this is Key $token");
-  // }
-
-  // getSessionId() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   sessionId = prefs.getString('SessionID');
-  //   print("this is seesion ID $sessionId");
-  // }
-
-  // _getCSRF() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   csrf = prefs.getString('csrf');
-  //   print("this is seesion ID $csrf");
-  // }
-
-  // _setHeaders() => {'Accept': 'application/json'};
 
   login(String phn, String password) async {
+    final prefs = await SharedPreferences.getInstance();
     await getLocation();
     String uri = "$baseUrl/User_Login";
     try {
-      http.Response response = await http.post(Uri.parse(uri),
-          headers: headers,
-          body: {
-            "number": phn,
-            "password": password,
-            "long": long,
-            "lati": lati
-          });
-      updateCookie(response);
+      http.Response response = await http.post(Uri.parse(uri), headers: {
+        'Accept': 'application/json'
+      }, body: {
+        "number": phn,
+        "password": password,
+        "long": long,
+        "lati": lati
+      });
+      prefs.setString('cookie', response.headers['set-cookie']!);
       return json.decode(response.body);
     } catch (e) {
       return e;
     }
   }
 
-  // saveCSRF(String csrf) async {
-  //   SharedPreferences pref = await SharedPreferences.getInstance();
-  //   pref.setString('csrf', csrf);
-  // }
-
   register(
       String name, String email, String phn, String pass, String state) async {
     await getLocation();
     String uri = "$baseUrl/Register_new";
     try {
-      http.Response response =
-          await http.post(Uri.parse(uri), headers: headers, body: {
+      http.Response response = await http.post(Uri.parse(uri), headers: {
+        'Accept': 'application/json'
+      }, body: {
         "name": name,
         "mobile": phn,
         "email": email,
@@ -83,7 +49,7 @@ class Auth {
         "ref_id": "ADMIN",
         "device": "APP",
       });
-      updateCookie(response);
+      // updateCookie(response);
       return json.decode(response.body);
     } catch (e) {
       return e;
@@ -91,25 +57,24 @@ class Auth {
   }
 
   verifyLoginOtp(String otp) async {
+    Map<String, String> authHeaders = {};
     final prefs = await SharedPreferences.getInstance();
-
     print(prefs.getString('key'));
     String uri = "$baseUrl/verify_login_otp";
 
     try {
-      http.Response response =
-          await http.post(Uri.parse(uri), headers: headers, body: {
+      http.Response response = await http.post(Uri.parse(uri), headers: {
+        'Accept': 'application/json'
+      }, body: {
         "otp": otp,
         "key": prefs.getString('key'),
       });
-      updateCookie(response);
+      prefs.setString('header', response.headers.toString());
       return json.decode(response.body);
     } catch (e) {
       return e;
     }
   }
-
-  getDetails() async {}
 
   saveData(String name, String phn, String email, int id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -118,49 +83,55 @@ class Auth {
     prefs.setString('email', email);
     prefs.setString('state', "West Bengal");
     prefs.setInt('id', id);
-
-    // print(prefs.getString('key'));
-    // print(prefs.getString('mobile'));
   }
 
-  // saveKey(String key) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString('key', key);
-  // }
-
-  // saveSessionId(String key) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString('SessionID', key);
-  //   print(prefs.getString('SessionID'));
-  // }
+  saveKey(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('key', key);
+  }
 
   getData() async {
+    final prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString('cookie').toString();
     String uri = "$baseUrlUser/user_bal";
-    try {
-      http.Response response = await http.get(Uri.parse(uri), headers: headers);
-      updateCookie(response);
-      return response.body;
-    } catch (e) {
-      return e;
-    }
+    var headers = {'Cookie': token};
+    var request = http.Request('GET', Uri.parse(uri));
+    request.headers.addAll(headers);
+    http.StreamedResponse response = await request.send();
+    var data = await http.Response.fromStream(response);
+    print(response.statusCode);
+    print(data.body);
   }
+
+  // getData() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   String? _token = prefs.getString('cookie');
+  //   String uri = "$baseUrlUser/user_bal";
+  //   try {
+  //     http.Response response = await http.get(Uri.parse(uri), headers: {
+  //       'Accept': 'application/json;charset=UTF-8',
+  //       'Cookie': _token!,
+  //       'Content-type': 'application/json'
+  //     });
+  //     print("this is header");
+  //     print(response.headers);
+  //     return response.body;
+  //   } catch (e) {
+  //     return e;
+  //   }
+  // }
 
   logout() async {
-    String uri = "$baseUrlUser/user_bal";
+    String uri = "$baseUrlUser/logout";
     try {
-      http.Response response = await http.get(Uri.parse(uri), headers: headers);
-      updateCookie(response);
-      return json.decode(response.body);
+      http.Response response = await http
+          .get(Uri.parse(uri), headers: {'Accept': 'application/json'});
+      print(response);
+      return response.statusCode;
     } catch (e) {
       return e;
     }
   }
-
-  // _setAuthHeaders() => {
-  //       'Accept': 'application/json',
-  //       'Connection': 'keep-alive',
-  //       // 'Authorization': 'Bearer $token',
-  //     };
 
   getLocation() async {
     position = await Geolocator.getCurrentPosition(

@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _logout() async {
     var data = await Auth().logout();
     print(data);
-    if (data['status'] == "success") {
+    if (data == 200) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('user');
       localStorage.remove('token');

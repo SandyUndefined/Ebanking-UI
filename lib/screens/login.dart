@@ -45,6 +45,7 @@ class _LoginState extends State<Login> {
     print(data);
     if (data['status'] == "OTP") {
       print(data['status'] == "OTP");
+      Auth().saveKey(data['key']);
       Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
           data["user"]["USER_LOGIN"], data["user"]["ID"]);
       Navigator.pushNamed(context, '/otp');
