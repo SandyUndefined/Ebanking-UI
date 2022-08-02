@@ -67,7 +67,7 @@ class _CheckAuthState extends State<CheckAuth> {
 
   void _checkIfLoggedIn() async {
     SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var key = localStorage.getString('key');
+    var key = localStorage.getString('authKey');
     print(key);
     if (key != null) {
       setState(() {

@@ -2,6 +2,7 @@ import 'package:apes/screens/Register.dart';
 import 'package:apes/screens/homepage.dart';
 import 'package:apes/screens/login.dart';
 import 'package:apes/screens/otp.dart';
+import 'package:apes/screens/register_success.dart';
 import 'package:apes/screens/splashScreen.dart';
 import 'package:apes/screens/walkThrough.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ Map<String, WidgetBuilder> routes() {
             print(value);
           },
         ),
+    '/register-success': (context) => const RegisterSuccess(),
     '/register': (context) => Register(
           onSubmit: (String value) {
             print(value);

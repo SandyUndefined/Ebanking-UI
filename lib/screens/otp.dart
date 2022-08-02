@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:apes/model/auth.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/images.dart';
+import 'package:apes/utils/progress_bar.dart';
 import 'package:apes/utils/strings.dart';
 import 'package:apes/utils/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -27,6 +28,7 @@ class _OtpState extends State<Otp> {
   String _otp = '';
 
   Future<void> _submit() async {
+    progressBar(context);
     setState(() => _submitted = true);
     if (_formKey.currentState!.validate()) {
       widget.onSubmit(_otp);
@@ -38,12 +40,16 @@ class _OtpState extends State<Otp> {
     } else if (data['satuts'] == 'err') {
       print(data['result']);
     } else if (data['status'] == 'success') {
-      Navigator.pushNamed(context, '/home');
+      Navigator.pop(context);
+      Navigator.popAndPushNamed(context, '/home');
     } else if (data['status'] == 'er') {
+      Navigator.pop(context);
       print("Opps there is a Mistake");
     } else if (data['status'] == 'wrong_otp') {
+      Navigator.pop(context);
       print("Invalid OTP");
     } else if (data['status'] == 'exists') {
+      Navigator.pop(context);
       print("User Already Exists");
     }
   }

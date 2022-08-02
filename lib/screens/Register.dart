@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:apes/model/auth.dart';
 import 'package:apes/utils/colors.dart';
+import 'package:apes/utils/progress_bar.dart';
 import 'package:apes/utils/strings.dart';
 import 'package:apes/utils/widgets.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class _RegisterState extends State<Register> {
   }
 
   Future<void> _submit() async {
+    progressBar(context);
     setState(() => _submitted = true);
     if (_formKey.currentState!.validate()) {
       widget.onSubmit(_fullName);
@@ -50,17 +52,14 @@ class _RegisterState extends State<Register> {
     var data =
         await Auth().register(_fullName, _email, _phn, _pass, "West Bengal");
     print(data);
-    if (data['status'] == "OTP") {
-      _key = data['key'];
-      Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
-          data["user"]["USER_LOGIN"], data["user"]["ID"]);
-      Navigator.pushNamed(context, '/otp');
-    } else if (data['status'] == 'err') {
+    if (data['status'] == 'err') {
+      Navigator.pop(context);
       print(data['result']);
     } else if (data['status'] == 'success') {
       Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
           data["user"]["USER_LOGIN"], data["user"]["ID"]);
-      Navigator.pushNamed(context, '/login');
+      Navigator.pop(context);
+      Navigator.pushNamed(context, '/register-success');
     }
   }
 
@@ -78,12 +77,12 @@ class _RegisterState extends State<Register> {
               SafeArea(
                 child: Container(
                   color: context.scaffoldBackgroundColor,
-                  padding: EdgeInsets.only(left: 8),
+                  padding: const EdgeInsets.only(left: 8),
                   alignment: Alignment.centerLeft,
                   width: MediaQuery.of(context).size.width,
                   height: 50,
                   child: IconButton(
-                    icon: Icon(Icons.arrow_back),
+                    icon: const Icon(Icons.arrow_back),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
@@ -92,7 +91,7 @@ class _RegisterState extends State<Register> {
               ),
               /*heading*/
               Padding(
-                padding: EdgeInsets.only(left: 25, right: 25, top: 14),
+                padding: const EdgeInsets.only(left: 25, right: 25, top: 14),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
@@ -100,9 +99,9 @@ class _RegisterState extends State<Register> {
                         maxLines: 2,
                         style:
                             boldTextStyle(size: 22, color: textPrimaryColor)),
-                    SizedBox(width: 4),
+                    const SizedBox(width: 4),
                     Padding(
-                      padding: EdgeInsets.only(bottom: 2),
+                      padding: const EdgeInsets.only(bottom: 2),
                       child: Text(lbl_sign_in,
                           maxLines: 2,
                           style: boldTextStyle(
@@ -115,7 +114,7 @@ class _RegisterState extends State<Register> {
               Form(
                 key: _formKey,
                 child: Padding(
-                  padding: EdgeInsets.all(25),
+                  padding: const EdgeInsets.all(25),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -163,7 +162,7 @@ class _RegisterState extends State<Register> {
                         },
                         onChanged: (text) => setState(() => _email = text),
                       ),
-                      SizedBox(height: 25),
+                      const SizedBox(height: 25),
                       Text(hint_phone, style: primaryTextStyle(size: 16)),
                       EditTextField(
                         input: [FilteringTextInputFormatter.digitsOnly],
@@ -184,7 +183,7 @@ class _RegisterState extends State<Register> {
                         },
                         onChanged: (text) => setState(() => _phn = text),
                       ),
-                      SizedBox(height: 25),
+                      const SizedBox(height: 25),
                       Text(hint_password, style: primaryTextStyle(size: 16)),
                       EditTextField(
                         isSecure: true,
@@ -202,7 +201,7 @@ class _RegisterState extends State<Register> {
                         },
                         onChanged: (text) => setState(() => _pass = text),
                       ),
-                      SizedBox(height: 25),
+                      const SizedBox(height: 25),
                       Text(hint_re_password, style: primaryTextStyle(size: 16)),
                       EditTextField(
                         isSecure: true,
@@ -220,7 +219,7 @@ class _RegisterState extends State<Register> {
                         },
                         onChanged: (text) => setState(() => _repass = text),
                       ),
-                      SizedBox(height: 50),
+                      const SizedBox(height: 50),
                       Button(
                           textContent: lbl_sign_up,
                           onPressed: _fullName.isNotEmpty &&

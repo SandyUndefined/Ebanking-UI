@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:apes/model/auth.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/geolocator.dart';
+import 'package:apes/utils/progress_bar.dart';
 import 'package:apes/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ class _LoginState extends State<Login> {
   bool _submitted = false;
   String _phn = '';
   String _pass = '';
+  bool loading = false;
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _LoginState extends State<Login> {
   }
 
   Future<void> _submit() async {
+    progressBar(context);
     print("asdadad");
     setState(() => _submitted = true);
     if (_formKey.currentState!.validate()) {
@@ -45,25 +48,31 @@ class _LoginState extends State<Login> {
     print(data);
     if (data['status'] == "OTP") {
       print(data['status'] == "OTP");
-      Auth().saveLoginKey(data['Login_Key']);
-      Auth().saveSessionId(data['SESSION_ID']);
+
+      // Auth().saveLoginKey(data['Login_Key']);
+      // Auth().saveSessionId(data['SESSION_ID']);
       // Auth().saveKey(data['key']);
       // Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
       //     data["user"]["USER_LOGIN"], data["user"]["ID"]);
       Navigator.pushNamed(context, '/otp');
     } else if (data['satuts'] == 'err') {
+      Navigator.pop(context);
       print(data['result']);
     } else if (data['status'] == 'success') {
       Auth().saveLoginKey(data['Login_Key']);
       Auth().saveSessionId(data['SESSION_ID']);
+      Navigator.pop(context);
       // Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
       //     data["user"]["USER_LOGIN"], data["user"]["ID"]);
       Navigator.popAndPushNamed(context, '/home');
     } else if (data['status'] == 'err_pwd') {
+      Navigator.pop(context);
       print("password wrong");
     } else if (data['status'] == 'not_exists') {
+      Navigator.pop(context);
       print("User not exists");
     } else if (data['status'] == 'block') {
+      Navigator.pop(context);
       print("Account blocked");
     }
   }

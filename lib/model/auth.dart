@@ -57,6 +57,7 @@ class Auth {
   }
 
   verifyLoginOtp(String otp) async {
+    print(otp);
     Map<String, String> authHeaders = {};
     final prefs = await SharedPreferences.getInstance();
     print(prefs.getString('key'));

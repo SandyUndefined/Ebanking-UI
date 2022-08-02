@@ -54,6 +54,8 @@ class _HomePageState extends State<HomePage> {
     var data = await Auth().getData();
     print(prefs.getInt('id'));
     print(data);
+    main_bal = data['MAIN_BAL'];
+    aeps_bal = data['AEPS_BAL'];
   }
 
   Future<void> _logout() async {
