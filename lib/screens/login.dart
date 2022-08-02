@@ -45,16 +45,20 @@ class _LoginState extends State<Login> {
     print(data);
     if (data['status'] == "OTP") {
       print(data['status'] == "OTP");
-      Auth().saveKey(data['key']);
-      Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
-          data["user"]["USER_LOGIN"], data["user"]["ID"]);
+      Auth().saveLoginKey(data['Login_Key']);
+      Auth().saveSessionId(data['SESSION_ID']);
+      // Auth().saveKey(data['key']);
+      // Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
+      //     data["user"]["USER_LOGIN"], data["user"]["ID"]);
       Navigator.pushNamed(context, '/otp');
     } else if (data['satuts'] == 'err') {
       print(data['result']);
     } else if (data['status'] == 'success') {
-      Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
-          data["user"]["USER_LOGIN"], data["user"]["ID"]);
-      Navigator.pushNamed(context, '/home');
+      Auth().saveLoginKey(data['Login_Key']);
+      Auth().saveSessionId(data['SESSION_ID']);
+      // Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
+      //     data["user"]["USER_LOGIN"], data["user"]["ID"]);
+      Navigator.popAndPushNamed(context, '/home');
     } else if (data['status'] == 'err_pwd') {
       print("password wrong");
     } else if (data['status'] == 'not_exists') {

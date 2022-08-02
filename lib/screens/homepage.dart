@@ -61,8 +61,8 @@ class _HomePageState extends State<HomePage> {
     print(data);
     if (data == 200) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.remove('user');
-      localStorage.remove('token');
+      localStorage.remove('authKey');
+      localStorage.remove('sessionKey');
       Navigator.popAndPushNamed(context, '/login');
     }
   }

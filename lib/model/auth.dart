@@ -90,17 +90,38 @@ class Auth {
     prefs.setString('key', key);
   }
 
+  saveLoginKey(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('authKey', key);
+  }
+
+  saveSessionId(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('sessionKey', token);
+  }
+
   getData() async {
     final prefs = await SharedPreferences.getInstance();
-    String token = prefs.getString('cookie').toString();
-    String uri = "$baseUrlUser/user_bal";
-    var headers = {'Cookie': token};
-    var request = http.Request('GET', Uri.parse(uri));
-    request.headers.addAll(headers);
-    http.StreamedResponse response = await request.send();
-    var data = await http.Response.fromStream(response);
-    print(response.statusCode);
-    print(data.body);
+    // String token = prefs.getString('cookie').toString();
+    // String key = prefs.getString('key').toString();
+    String cookie = prefs.getString('cookie').toString();
+    String key = prefs.getString('authKey').toString();
+    String session = prefs.getString('sessionKey').toString();
+    String uri = "https://aeps.bharataeps.com/api/User_Bal";
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': key,
+      // 'Cookie': cookie,
+      'Token': session
+    };
+    print(headers);
+    try {
+      http.Response response = await http.get(Uri.parse(uri), headers: headers);
+      return response.body;
+    } catch (e) {
+      print("this is error $e");
+      return e;
+    }
   }
 
   // getData() async {
