@@ -39,24 +39,13 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
-          children: [
-            const Image(
-                image: AssetImage(logo),
-                height: 60,
-                width: 60,
-                fit: BoxFit.cover,
-                color: colorPrimary),
-            const SizedBox(height: 8),
-            const Text(
-              '$app_name',
-              textAlign: TextAlign.start,
-              overflow: TextOverflow.clip,
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontStyle: FontStyle.normal,
-                fontSize: 20,
-              ),
-            ),
+          children: const [
+            Image(
+              image: AssetImage(logo),
+              height: 150,
+              width: 250,
+              fit: BoxFit.cover,
+            )
           ],
         ),
       ),
