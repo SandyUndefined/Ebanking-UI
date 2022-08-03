@@ -77,18 +77,23 @@ class Auth {
     }
   }
 
-  saveData(String name, String phn, String email, int id) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('name', name);
-    prefs.setString('mobile', phn);
-    prefs.setString('email', email);
-    prefs.setString('state', "West Bengal");
-    prefs.setInt('id', id);
-  }
+  // saveData(String name, String phn, String email, int id) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('name', name);
+  //   prefs.setString('mobile', phn);
+  //   prefs.setString('email', email);
+  //   prefs.setString('state', "West Bengal");
+  //   prefs.setInt('id', id);
+  // }
 
   saveKey(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('key', key);
+  }
+
+  saveName(String name) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('name', name);
   }
 
   saveLoginKey(String key) async {

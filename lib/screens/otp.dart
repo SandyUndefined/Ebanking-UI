@@ -4,6 +4,7 @@ import 'package:apes/model/auth.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/images.dart';
 import 'package:apes/utils/progress_bar.dart';
+import 'package:apes/utils/snackbar.dart';
 import 'package:apes/utils/strings.dart';
 import 'package:apes/utils/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -35,22 +36,23 @@ class _OtpState extends State<Otp> {
     }
     var data = await Auth().verifyLoginOtp(_otp);
     print(data);
-    if (data['status'] == "OTP") {
-      Navigator.pushNamed(context, '/otp');
-    } else if (data['satuts'] == 'err') {
+    if (data['satuts'] == 'err') {
+      Navigator.pop(context);
       print(data['result']);
+      floatingSnackBar(context, "(data['result'])");
     } else if (data['status'] == 'success') {
+      Auth().saveLoginKey(data['Login_Key']);
+      Auth().saveSessionId(data['SESSION_ID']);
       Navigator.pop(context);
       Navigator.popAndPushNamed(context, '/home');
-    } else if (data['status'] == 'er') {
+    } else if (data['status'] == 'err') {
       Navigator.pop(context);
+      floatingSnackBar(context, "(data['result'])");
       print("Opps there is a Mistake");
     } else if (data['status'] == 'wrong_otp') {
       Navigator.pop(context);
+      floatingSnackBar(context, "(data['result'])");
       print("Invalid OTP");
-    } else if (data['status'] == 'exists') {
-      Navigator.pop(context);
-      print("User Already Exists");
     }
   }
 

@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:apes/model/auth.dart';
 import 'package:apes/utils/colors.dart';
-import 'package:apes/utils/geolocator.dart';
 import 'package:apes/utils/progress_bar.dart';
+import 'package:apes/utils/snackbar.dart';
 import 'package:apes/utils/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,32 +47,30 @@ class _LoginState extends State<Login> {
     var data = await Auth().login(_phn, _pass);
     print(data);
     if (data['status'] == "OTP") {
-      print(data['status'] == "OTP");
-
-      // Auth().saveLoginKey(data['Login_Key']);
-      // Auth().saveSessionId(data['SESSION_ID']);
-      // Auth().saveKey(data['key']);
-      // Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
-      //     data["user"]["USER_LOGIN"], data["user"]["ID"]);
+      Auth().saveKey(data['key']);
+      Navigator.pop(context);
       Navigator.pushNamed(context, '/otp');
     } else if (data['satuts'] == 'err') {
       Navigator.pop(context);
+      floatingSnackBar(context, "(data['result'])");
       print(data['result']);
     } else if (data['status'] == 'success') {
       Auth().saveLoginKey(data['Login_Key']);
       Auth().saveSessionId(data['SESSION_ID']);
+      Auth().saveName(data['Name']);
       Navigator.pop(context);
-      // Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
-      //     data["user"]["USER_LOGIN"], data["user"]["ID"]);
       Navigator.popAndPushNamed(context, '/home');
     } else if (data['status'] == 'err_pwd') {
       Navigator.pop(context);
+      floatingSnackBar(context, "Wrong Password");
       print("password wrong");
     } else if (data['status'] == 'not_exists') {
       Navigator.pop(context);
+      floatingSnackBar(context, "User Not exists");
       print("User not exists");
     } else if (data['status'] == 'block') {
       Navigator.pop(context);
+      floatingSnackBar(context, "Account Blocked");
       print("Account blocked");
     }
   }

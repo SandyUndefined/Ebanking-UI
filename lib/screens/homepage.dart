@@ -7,6 +7,7 @@ import 'package:apes/utils/constant.dart';
 import 'package:apes/utils/data.dart';
 import 'package:apes/utils/gridListing.dart';
 import 'package:apes/utils/images.dart';
+import 'package:apes/utils/progress_bar.dart';
 import 'package:apes/utils/slider.dart';
 import 'package:apes/utils/strings.dart';
 import 'package:apes/utils/widgets.dart';
@@ -33,7 +34,6 @@ class _HomePageState extends State<HomePage> {
   List<T5Slider>? mSliderList;
   String main_bal = "";
   String aeps_bal = "";
-  String id = "";
   String name = "";
 
   @override
@@ -42,10 +42,10 @@ class _HomePageState extends State<HomePage> {
     passwordVisible = false;
     mFavouriteList = getCategoryItems();
     mSliderList = getSliders();
-    printData();
+    loadData();
   }
 
-  printData() async {
+  loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       print(prefs.getString('name'));
@@ -59,12 +59,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _logout() async {
+    progressBar(context);
     var data = await Auth().logout();
     print(data);
     if (data == 200) {
       SharedPreferences localStorage = await SharedPreferences.getInstance();
       localStorage.remove('authKey');
       localStorage.remove('sessionKey');
+      localStorage.remove('name');
       Navigator.popAndPushNamed(context, '/login');
     }
   }
@@ -138,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            "Main Balance: $main_bal",
+                            "Main Balance:" + main_bal,
                             style: boldTextStyle(size: 20),
                           ),
                           const SizedBox(height: 15),

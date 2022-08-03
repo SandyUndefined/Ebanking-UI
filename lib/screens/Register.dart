@@ -56,8 +56,6 @@ class _RegisterState extends State<Register> {
       Navigator.pop(context);
       print(data['result']);
     } else if (data['status'] == 'success') {
-      Auth().saveData(data["user"]["NAME"], data["user"]["MOBILE"],
-          data["user"]["USER_LOGIN"], data["user"]["ID"]);
       Navigator.pop(context);
       Navigator.pushNamed(context, '/register-success');
     }
