@@ -14,6 +14,7 @@ class T5Category {
 }
 
 class T5Slider {
+  var name = "";
   var image = "";
   var balance = "";
   var accountNo = "";
@@ -42,8 +43,10 @@ class T5Contact {
 
 class T5SliderWidget extends StatelessWidget {
   List<T5Slider>? mSliderList;
+  String main;
+  String aeps;
 
-  T5SliderWidget(this.mSliderList);
+  T5SliderWidget(this.mSliderList, this.main, this.aeps);
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +79,7 @@ class T5SliderWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           text(
-                            t5_avl_balance,
+                            slider.name,
                             textColor: t5White,
                             fontSize: textSizeMedium,
                           ),
@@ -98,20 +101,11 @@ class T5SliderWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              text(
-                                t5_account_number,
-                                textColor: t5White,
-                                fontSize: textSizeMedium,
-                              ),
                               text(slider.accountNo,
                                   textColor: t5White, fontSize: textSizeNormal)
                             ],
                           ),
                         ),
-                        text("VISA",
-                            textColor: t5White,
-                            fontSize: textSizeLarge,
-                            fontFamily: fontBold)
                       ],
                     ),
                   )
