@@ -42,20 +42,21 @@ class _HomePageState extends State<HomePage> {
     passwordVisible = false;
     mFavouriteList = getCategoryItems();
     mSliderList = getSliders();
-    loadData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      loadData();
+    });
   }
 
   loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    var data = await Auth().getData();
+    print(data);
     setState(() {
+      main_bal = (data['MAIN']);
+      aeps_bal = data['AEPS'];
       print(prefs.getString('name'));
       name = prefs.getString('name')!;
     });
-    var data = await Auth().getData();
-    print(prefs.getInt('id'));
-    print(data);
-    main_bal = data['MAIN_BAL'];
-    aeps_bal = data['AEPS_BAL'];
   }
 
   Future<void> _logout() async {
@@ -140,7 +141,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Text(
-                            "Main Balance:" + main_bal,
+                            "Main Balance: $main_bal",
                             style: boldTextStyle(size: 20),
                           ),
                           const SizedBox(height: 15),

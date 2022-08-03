@@ -123,7 +123,7 @@ class Auth {
     print(headers);
     try {
       http.Response response = await http.get(Uri.parse(uri), headers: headers);
-      return response.body;
+      return json.decode(response.body);
     } catch (e) {
       print("this is error $e");
       return e;
