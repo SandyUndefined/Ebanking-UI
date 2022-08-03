@@ -68,6 +68,12 @@ class _HomePageState extends State<HomePage> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var data = await Auth().getData();
     print(data);
+    if (data['response_code'] == 401) {
+      prefs.remove('authKey');
+      prefs.remove('sessionKey');
+      prefs.remove('name');
+      Navigator.popAndPushNamed(context, '/login');
+    }
     setState(() {
       main_bal = data['MAIN'];
       aeps_bal = data['AEPS'];
