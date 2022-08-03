@@ -43,6 +43,7 @@ class _OtpState extends State<Otp> {
     } else if (data['status'] == 'success') {
       Auth().saveLoginKey(data['Login_Key']);
       Auth().saveSessionId(data['SESSION_ID']);
+      Auth().saveName(data['Name']);
       Navigator.pop(context);
       Navigator.popAndPushNamed(context, '/home');
     } else if (data['status'] == 'err') {
