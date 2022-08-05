@@ -20,7 +20,7 @@ Future<void> logout(BuildContext context) async {
   }
 }
 
-customeDrawer(BuildContext context, name) {
+customDrawer(BuildContext context, name) {
   return ClipPath(
     clipper: OvalRightBorderClipper(),
     clipBehavior: Clip.antiAliasWithSaveLayer,

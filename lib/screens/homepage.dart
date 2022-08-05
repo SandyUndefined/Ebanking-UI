@@ -4,7 +4,8 @@ import 'package:apes/model/auth.dart';
 import 'package:apes/model/user.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/constant.dart';
-import 'package:apes/utils/custome_drawer.dart';
+import 'package:apes/utils/custom_bottom_nav_bar.dart';
+import 'package:apes/utils/custom_drawer.dart';
 import 'package:apes/utils/data.dart';
 import 'package:apes/utils/gridListing.dart';
 import 'package:apes/utils/images.dart';
@@ -102,7 +103,10 @@ class _HomePageState extends State<HomePage> {
       builder: (_) => Scaffold(
         backgroundColor: t5DarkNavy,
         key: _scaffoldKey,
-        drawer: customeDrawer(context, name.capitalizeFirstLetter()),
+        drawer: isLoading
+            ? null
+            : customDrawer(context, name.capitalizeFirstLetter()),
+        bottomNavigationBar: isLoading ? null : customBottomNavBar(context),
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
             : SafeArea(
