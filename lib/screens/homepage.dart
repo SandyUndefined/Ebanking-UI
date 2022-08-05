@@ -4,6 +4,7 @@ import 'package:apes/model/auth.dart';
 import 'package:apes/model/user.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/constant.dart';
+import 'package:apes/utils/custome_drawer.dart';
 import 'package:apes/utils/data.dart';
 import 'package:apes/utils/gridListing.dart';
 import 'package:apes/utils/images.dart';
@@ -85,19 +86,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Future<void> _logout() async {
-    progressBar(context);
-    var data = await Auth().logout();
-    print(data);
-    if (data == 200) {
-      SharedPreferences localStorage = await SharedPreferences.getInstance();
-      localStorage.remove('authKey');
-      localStorage.remove('sessionKey');
-      localStorage.remove('name');
-      Navigator.popAndPushNamed(context, '/login');
-    }
-  }
-
   void changeSldier(int index) {
     setState(() {
       currentIndexPage = index;
@@ -114,44 +102,38 @@ class _HomePageState extends State<HomePage> {
       builder: (_) => Scaffold(
         backgroundColor: t5DarkNavy,
         key: _scaffoldKey,
+        drawer: customeDrawer(context, name.capitalizeFirstLetter()),
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
             : SafeArea(
                 child: Stack(
                   children: <Widget>[
                     Container(
-                      height: 70,
+                      height: 50,
                       margin: const EdgeInsets.all(16),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              const CircleAvatar(
-                                backgroundImage:
-                                    CachedNetworkImageProvider(t5_profile_8),
-                                radius: 25,
+                              IconButton(
+                                icon: const Icon(Icons.menu, color: t5White),
+                                onPressed: () {
+                                  _scaffoldKey.currentState!.openDrawer();
+                                },
                               ),
                               const SizedBox(width: 16),
-                              text(name.capitalizeFirstLetter(),
+                              text("Bharat AEPS",
                                   textColor: t5White,
                                   fontSize: textSizeNormal,
                                   fontFamily: fontMedium)
                             ],
-                          ),
-                          InkWell(
-                            splashColor: White,
-                            onTap: _logout,
-                            child: text(logout,
-                                textColor: t5White,
-                                fontSize: textSizeMedium,
-                                fontFamily: fontMedium),
-                          ),
+                          )
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 100),
+                      padding: const EdgeInsets.only(top: 80),
                       child: Container(
                         padding: const EdgeInsets.only(top: 28),
                         alignment: Alignment.topLeft,
