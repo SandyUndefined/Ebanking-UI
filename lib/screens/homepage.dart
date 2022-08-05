@@ -32,7 +32,9 @@ class _HomePageState extends State<HomePage> {
   bool passwordVisible = false;
   bool isRemember = false;
   var currentIndexPage = 0;
-  List<T5Category>? mFavouriteList;
+  List<ModelCategory>? bankingList;
+  List<ModelCategory>? rechargeList;
+  List<ModelCategory>? reportList;
   List<T5Slider>? mSliderList;
   String main_bal = "";
   String aeps_bal = "";
@@ -81,7 +83,9 @@ class _HomePageState extends State<HomePage> {
       aeps_bal = data['AEPS'];
       print(prefs.getString('name'));
       name = prefs.getString('name')!;
-      mFavouriteList = getCategoryItems();
+      bankingList = getBankingItems();
+      rechargeList = getRechargeItems();
+      reportList = getReportItems();
       mSliderList = getBalSliders();
       isLoading = false;
     });
@@ -165,8 +169,7 @@ class _HomePageState extends State<HomePage> {
                                     height: height * .35,
                                     child: Padding(
                                       padding: const EdgeInsets.all(24.0),
-                                      child:
-                                          T5GridListing(mFavouriteList, false),
+                                      child: T5GridListing(bankingList, false),
                                     ),
                                   ),
                                   text("Recharge & Bill Payments",
@@ -177,8 +180,7 @@ class _HomePageState extends State<HomePage> {
                                     height: height * .35,
                                     child: Padding(
                                       padding: const EdgeInsets.all(24.0),
-                                      child:
-                                          T5GridListing(mFavouriteList, false),
+                                      child: T5GridListing(rechargeList, false),
                                     ),
                                   ),
                                   text("Reports",
@@ -189,8 +191,7 @@ class _HomePageState extends State<HomePage> {
                                     height: height * .35,
                                     child: Padding(
                                       padding: const EdgeInsets.all(24.0),
-                                      child:
-                                          T5GridListing(mFavouriteList, false),
+                                      child: T5GridListing(reportList, false),
                                     ),
                                   ),
                                 ],

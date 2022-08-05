@@ -9,10 +9,10 @@ import 'package:nb_utils/nb_utils.dart';
 
 // ignore: must_be_immutable
 class T5GridListing extends StatelessWidget {
-  List<T5Category>? mFavouriteList;
+  List<ModelCategory>? mAnyList;
   var isScrollable = false;
 
-  T5GridListing(this.mFavouriteList, this.isScrollable);
+  T5GridListing(this.mAnyList, this.isScrollable);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class T5GridListing extends StatelessWidget {
         physics: isScrollable
             ? const ScrollPhysics()
             : const NeverScrollableScrollPhysics(),
-        itemCount: mFavouriteList!.length,
+        itemCount: mAnyList!.length,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, crossAxisSpacing: 16, mainAxisSpacing: 16),
         itemBuilder: (BuildContext context, int index) {
@@ -51,13 +51,13 @@ class T5GridListing extends StatelessWidget {
                     margin: const EdgeInsets.only(bottom: 4, top: 8),
                     padding: EdgeInsets.all(width / 30),
                     decoration: boxDecoration(
-                        bgColor: mFavouriteList![index].color, radius: 10),
+                        bgColor: mAnyList![index].color, radius: 10),
                     child: SvgPicture.asset(
-                      mFavouriteList![index].icon,
+                      mAnyList![index].icon,
                       color: t5White,
                     ),
                   ),
-                  text(mFavouriteList![index].name,
+                  text(mAnyList![index].name,
                       textColor: textSecondaryColor,
                       fontSize: textSizeSmall,
                       maxLine: 2,

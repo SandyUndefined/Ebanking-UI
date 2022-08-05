@@ -1,6 +1,9 @@
+import 'package:apes/utils/data.dart';
 import 'package:apes/utils/images.dart';
+import 'package:apes/utils/slider.dart';
 import 'package:apes/utils/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class More extends StatefulWidget {
@@ -11,6 +14,7 @@ class More extends StatefulWidget {
 }
 
 class _MoreState extends State<More> {
+  List<ModelCategory> mFavouriteList = getBankingItems();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,10 +41,10 @@ class _MoreState extends State<More> {
         body: ListView.builder(
             scrollDirection: Axis.vertical,
             physics: const BouncingScrollPhysics(),
-            itemCount: dataList.length,
+            itemCount: mFavouriteList.length,
             padding: const EdgeInsets.only(bottom: 16),
             itemBuilder: (context, index) {
-              return DataList(dataList[index], index);
+              return DataList(mFavouriteList[index], index);
             }),
       ),
     );
@@ -48,12 +52,11 @@ class _MoreState extends State<More> {
 }
 
 class DataList extends StatelessWidget {
-  late DataModel model;
+  late ModelCategory model;
 
-  DataList(DataModel model, int pos) {
+  DataList(ModelCategory model, int pos) {
     this.model = model;
   }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,8 +68,8 @@ class DataList extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
       child: Row(
         children: [
-          Image.asset(
-            model.images,
+          SvgPicture.asset(
+            model.icon,
             height: 40,
             width: 40,
           ),
@@ -81,120 +84,3 @@ class DataList extends StatelessWidget {
     );
   }
 }
-
-class DataModel {
-  var images;
-  var name;
-
-  DataModel({
-    this.images,
-    this.name,
-  });
-}
-
-List<DataModel> dataList = [
-  DataModel(
-    images: 'images/airplane.png',
-    name: 'Travels',
-  ),
-  DataModel(
-    images: 'images/book.png',
-    name: 'Education',
-  ),
-  DataModel(
-    images: 'images/computer.png',
-    name: 'Management',
-  ),
-  DataModel(
-    images: 'images/finance.png',
-    name: 'Finance',
-  ),
-  DataModel(
-    images: 'images/food.png',
-    name: 'Food',
-  ),
-  DataModel(
-    images: 'images/graphic.png',
-    name: 'Business',
-  ),
-  DataModel(
-    images: 'images/healthy.png',
-    name: 'Yoga & Gym',
-  ),
-  DataModel(
-    images: 'images/heart.png',
-    name: 'Health',
-  ),
-  DataModel(
-    images: 'images/airplane.png',
-    name: 'Travel',
-  ),
-  DataModel(
-    images: 'images/book.png',
-    name: 'Education',
-  ),
-  DataModel(
-    images: 'images/computer.png',
-    name: 'Management',
-  ),
-  DataModel(
-    images: 'images/finance.png',
-    name: 'Finance',
-  ),
-  DataModel(
-    images: 'images/food.png',
-    name: 'Food',
-  ),
-  DataModel(
-    images: 'images/airplane.png',
-    name: 'Travel',
-  ),
-  DataModel(
-    images: 'images/book.png',
-    name: 'Education',
-  ),
-  DataModel(
-    images: 'images/computer.png',
-    name: 'Management',
-  ),
-  DataModel(
-    images: 'images/finance.png',
-    name: 'Finance',
-  ),
-  DataModel(
-    images: 'images/food.png',
-    name: 'Food',
-  ),
-  DataModel(
-    images: 'images/graphic.png',
-    name: 'Business',
-  ),
-  DataModel(
-    images: 'images/healthy.png',
-    name: 'Yoga & Gym',
-  ),
-  DataModel(
-    images: 'images/heart.png',
-    name: 'Health',
-  ),
-  DataModel(
-    images: 'images/airplane.png',
-    name: 'Travel',
-  ),
-  DataModel(
-    images: 'images/book.png',
-    name: 'Education',
-  ),
-  DataModel(
-    images: 'images/computer.png',
-    name: 'Management',
-  ),
-  DataModel(
-    images: 'images/finance.png',
-    name: 'Finance',
-  ),
-  DataModel(
-    images: 'images/food.png',
-    name: 'Food',
-  ),
-];

@@ -6,10 +6,9 @@ import 'package:apes/utils/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class T5Category {
+class ModelCategory {
   var name = "";
   Color? color;
-
   var icon = "";
 }
 
