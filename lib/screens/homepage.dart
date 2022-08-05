@@ -131,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                               const SizedBox(width: 16),
                               text("Bharat AEPS",
                                   textColor: t5White,
-                                  fontSize: textSizeNormal,
+                                  fontSize: textSizeLarge,
                                   fontFamily: fontMedium)
                             ],
                           )

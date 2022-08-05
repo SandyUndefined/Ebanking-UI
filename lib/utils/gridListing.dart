@@ -28,7 +28,6 @@ class T5GridListing extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             onTap: () {
-              print("this is $index");
               switch (index) {
                 case 5:
                   Navigator.push(
