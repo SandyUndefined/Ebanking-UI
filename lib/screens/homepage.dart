@@ -161,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                                 child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  text("Banking & Saving",
+                                  text("Banking & Services",
                                       textColor: textColorPrimary,
                                       fontSize: textSizeNormal,
                                       fontFamily: fontMedium),
@@ -169,7 +169,8 @@ class _HomePageState extends State<HomePage> {
                                     height: height * .35,
                                     child: Padding(
                                       padding: const EdgeInsets.all(24.0),
-                                      child: T5GridListing(bankingList, false),
+                                      child: T5GridListing(bankingList, false,
+                                          "Banking & Services"),
                                     ),
                                   ),
                                   text("Recharge & Bill Payments",
@@ -180,7 +181,8 @@ class _HomePageState extends State<HomePage> {
                                     height: height * .35,
                                     child: Padding(
                                       padding: const EdgeInsets.all(24.0),
-                                      child: T5GridListing(rechargeList, false),
+                                      child: T5GridListing(rechargeList, false,
+                                          "Recharge & Bill Payments"),
                                     ),
                                   ),
                                   text("Reports",
@@ -191,7 +193,8 @@ class _HomePageState extends State<HomePage> {
                                     height: height * .35,
                                     child: Padding(
                                       padding: const EdgeInsets.all(24.0),
-                                      child: T5GridListing(reportList, false),
+                                      child: T5GridListing(
+                                          reportList, false, "Reports"),
                                     ),
                                   ),
                                 ],

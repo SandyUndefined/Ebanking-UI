@@ -7,14 +7,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class More extends StatefulWidget {
-  const More({Key? key}) : super(key: key);
+  List<ModelCategory>? mAnyList;
+  String? titleName;
+  More(this.mAnyList, this.titleName);
 
   @override
   State<More> createState() => _MoreState();
 }
 
 class _MoreState extends State<More> {
-  List<ModelCategory> mFavouriteList = getBankingItems();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,9 +29,9 @@ class _MoreState extends State<More> {
               child: Image.asset(back),
             ),
           ),
-          title: const Text(
-            "Banking & Saving",
-            style: TextStyle(
+          title: Text(
+            widget.titleName!,
+            style: const TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w800,
               fontStyle: FontStyle.normal,
@@ -41,10 +42,17 @@ class _MoreState extends State<More> {
         body: ListView.builder(
             scrollDirection: Axis.vertical,
             physics: const BouncingScrollPhysics(),
-            itemCount: mFavouriteList.length,
+            itemCount: widget.mAnyList!.length,
             padding: const EdgeInsets.only(bottom: 16),
             itemBuilder: (context, index) {
-              return DataList(mFavouriteList[index], index);
+              if (index == 5) {
+                print(index);
+                null;
+              } else {
+                return DataList(widget.mAnyList![index], index);
+              }
+              print("sadad");
+              return Container();
             }),
       ),
     );

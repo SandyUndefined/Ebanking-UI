@@ -10,9 +10,10 @@ import 'package:nb_utils/nb_utils.dart';
 // ignore: must_be_immutable
 class T5GridListing extends StatelessWidget {
   List<ModelCategory>? mAnyList;
+  String? titleName;
   var isScrollable = false;
 
-  T5GridListing(this.mAnyList, this.isScrollable);
+  T5GridListing(this.mAnyList, this.isScrollable, this.titleName);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class T5GridListing extends StatelessWidget {
         physics: isScrollable
             ? const ScrollPhysics()
             : const NeverScrollableScrollPhysics(),
-        itemCount: mAnyList!.length,
+        itemCount: mAnyList!.length > 3 ? 6 : 3,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, crossAxisSpacing: 16, mainAxisSpacing: 16),
         itemBuilder: (BuildContext context, int index) {
@@ -31,7 +32,12 @@ class T5GridListing extends StatelessWidget {
               switch (index) {
                 case 5:
                   Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => More()));
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => More(
+                                mAnyList,
+                                titleName,
+                              )));
                   break;
                 default:
               }
