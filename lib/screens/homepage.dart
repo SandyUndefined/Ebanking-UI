@@ -116,9 +116,10 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           Row(
                             children: <Widget>[
-                              IconButton(
-                                icon: const Icon(Icons.menu, color: t5White),
-                                onPressed: () {
+                              InkWell(
+                                child:
+                                    const Image(image: AssetImage(hamburger)),
+                                onTap: () {
                                   _scaffoldKey.currentState!.openDrawer();
                                 },
                               ),

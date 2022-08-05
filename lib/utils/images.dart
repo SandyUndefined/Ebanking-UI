@@ -116,3 +116,4 @@ const t5_img_home = "images/t5_home.svg";
 const t5_notification_2 = "images/t5_notification_2.svg";
 const t5_payments = "images/t5_payment.svg";
 const profile = "images/profile.png";
+const hamburger = "images/menus.png";
