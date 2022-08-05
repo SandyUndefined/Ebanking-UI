@@ -97,6 +97,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     changeStatusColor(t5DarkNavy);
     var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
     width = width - 50;
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return Observer(
@@ -153,11 +154,48 @@ class _HomePageState extends State<HomePage> {
                             T5SliderWidget(mSliderList, main_bal, aeps_bal),
                             const SizedBox(height: 20),
                             Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(24.0),
-                                child: T5GridListing(mFavouriteList, false),
+                                child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  text("Banking & Saving",
+                                      textColor: textColorPrimary,
+                                      fontSize: textSizeNormal,
+                                      fontFamily: fontMedium),
+                                  SizedBox(
+                                    height: height * .35,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(24.0),
+                                      child:
+                                          T5GridListing(mFavouriteList, false),
+                                    ),
+                                  ),
+                                  text("Recharge & Bill Payments",
+                                      textColor: textColorPrimary,
+                                      fontSize: textSizeNormal,
+                                      fontFamily: fontMedium),
+                                  SizedBox(
+                                    height: height * .35,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(24.0),
+                                      child:
+                                          T5GridListing(mFavouriteList, false),
+                                    ),
+                                  ),
+                                  text("Reports",
+                                      textColor: textColorPrimary,
+                                      fontSize: textSizeNormal,
+                                      fontFamily: fontMedium),
+                                  SizedBox(
+                                    height: height * .35,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(24.0),
+                                      child:
+                                          T5GridListing(mFavouriteList, false),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            )
+                            ))
                           ],
                         ),
                       ),

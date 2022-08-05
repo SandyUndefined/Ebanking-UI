@@ -1,3 +1,4 @@
+import 'package:apes/screens/more.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/constant.dart';
 import 'package:apes/utils/slider.dart';
@@ -25,8 +26,17 @@ class T5GridListing extends StatelessWidget {
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3, crossAxisSpacing: 16, mainAxisSpacing: 16),
         itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {},
+          return InkWell(
+            onTap: () {
+              print("this is $index");
+              switch (index) {
+                case 5:
+                  Navigator.push(
+                      context, MaterialPageRoute(builder: (context) => More()));
+                  break;
+                default:
+              }
+            },
             child: Container(
               alignment: Alignment.center,
               decoration: boxDecoration(
@@ -39,7 +49,7 @@ class T5GridListing extends StatelessWidget {
                   Container(
                     height: width / 7.5,
                     width: width / 7.5,
-                    margin: EdgeInsets.only(bottom: 4, top: 8),
+                    margin: const EdgeInsets.only(bottom: 4, top: 8),
                     padding: EdgeInsets.all(width / 30),
                     decoration: boxDecoration(
                         bgColor: mFavouriteList![index].color, radius: 10),
@@ -49,7 +59,10 @@ class T5GridListing extends StatelessWidget {
                     ),
                   ),
                   text(mFavouriteList![index].name,
-                      textColor: textSecondaryColor, fontSize: textSizeMedium)
+                      textColor: textSecondaryColor,
+                      fontSize: textSizeSmall,
+                      maxLine: 2,
+                      isCentered: true)
                 ],
               ),
             ),

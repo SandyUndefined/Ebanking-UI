@@ -20,27 +20,6 @@ class T5Slider {
   var accountNo = "";
 }
 
-class T5Bill {
-  var name;
-  var day;
-  var date;
-  var isPaid = false;
-  late var icon;
-  var amount;
-  var wallet = "Mastercard";
-}
-
-class T5Contact {
-  late var img;
-
-  var name;
-
-  var isOnline = false;
-  var subject;
-
-  var contactno;
-}
-
 class T5SliderWidget extends StatelessWidget {
   List<T5Slider>? mSliderList;
   String main;
@@ -89,9 +68,9 @@ class T5SliderWidget extends StatelessWidget {
                               fontFamily: fontBold)
                         ],
                       ),
-                      padding: EdgeInsets.all(14)),
+                      padding: const EdgeInsets.all(14)),
                   Container(
-                    padding: EdgeInsets.all(14),
+                    padding: const EdgeInsets.all(14),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       crossAxisAlignment: CrossAxisAlignment.end,
