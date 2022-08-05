@@ -47,13 +47,13 @@ class _HomePageState extends State<HomePage> {
     model1.name = "Main Balance";
     model1.balance = main_bal;
     model1.image = t5_bg_card_2;
-    model1.accountNo = name;
+    model1.accountNo = name.capitalizeFirstLetter();
 
     T5Slider model2 = T5Slider();
     model2.name = "AEPS Balance";
     model2.balance = aeps_bal;
     model2.image = t5_bg_card_1;
-    model2.accountNo = name;
+    model2.accountNo = name.capitalizeFirstLetter();
     list.add(model1);
     list.add(model2);
     return list;
