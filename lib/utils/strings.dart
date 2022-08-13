@@ -156,3 +156,4 @@ const verify_acc =
 const logout = "Logout";
 const hint_amount = "Amount";
 const lbl_recharge = "Recharge";
+const select_operator = "Select Operator";
