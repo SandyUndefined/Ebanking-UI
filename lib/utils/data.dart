@@ -69,7 +69,6 @@ List<ModelCategory> getRechargeItems() {
   category1.name = "Mobile Recharge";
   category1.color = t5Cat1;
   category1.image = t5_paperplane;
-  category1.page = const MobileRecharge();
   list.add(category1);
   var category2 = ModelCategory();
   category2.name = "DTH Recharge";

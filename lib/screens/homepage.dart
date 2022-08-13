@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   String aeps_bal = "";
   String name = "";
   bool isLoading = true;
-
+  List prepaidList = [];
   List<T5Slider> getBalSliders() {
     print("this is main $main_bal");
     List<T5Slider> list = [];
@@ -78,6 +78,11 @@ class _HomePageState extends State<HomePage> {
       prefs.remove('sessionKey');
       prefs.remove('name');
       Navigator.popAndPushNamed(context, '/login');
+    } else {
+      var operatorList = await UserData().getPrepaid();
+      setState(() {
+        prepaidList = operatorList;
+      });
     }
     setState(() {
       main_bal = data['MAIN'];
@@ -109,7 +114,7 @@ class _HomePageState extends State<HomePage> {
       builder: (_) => Scaffold(
         key: _scaffoldKey,
         drawer: customDrawer(context, name),
-        appBar: CustomAppBar(state: _scaffoldKey),
+        appBar: CustomAppBar(state: _scaffoldKey, appBarName: "Bharat AEPS"),
         backgroundColor: t5DarkNavy,
         bottomNavigationBar: isLoading ? null : customBottomNavBar(context),
         body: isLoading
@@ -143,7 +148,7 @@ class _HomePageState extends State<HomePage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(24.0),
                                     child: T5GridListing(bankingList, false,
-                                        "Banking & Services"),
+                                        "Banking & Services", prepaidList),
                                   ),
                                 ),
                                 text("Recharge & Bill Payments",
@@ -154,8 +159,11 @@ class _HomePageState extends State<HomePage> {
                                   height: height * .35,
                                   child: Padding(
                                     padding: const EdgeInsets.all(24.0),
-                                    child: T5GridListing(rechargeList, false,
-                                        "Recharge & Bill Payments"),
+                                    child: T5GridListing(
+                                        rechargeList,
+                                        false,
+                                        "Recharge & Bill Payments",
+                                        prepaidList),
                                   ),
                                 ),
                                 text("Reports",
@@ -166,8 +174,8 @@ class _HomePageState extends State<HomePage> {
                                   height: height * .35,
                                   child: Padding(
                                     padding: const EdgeInsets.all(24.0),
-                                    child: T5GridListing(
-                                        reportList, false, "Reports"),
+                                    child: T5GridListing(reportList, false,
+                                        "Reports", prepaidList),
                                   ),
                                 ),
                               ],

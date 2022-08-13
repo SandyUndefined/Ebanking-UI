@@ -13,8 +13,10 @@ class T5GridListing extends StatelessWidget {
   List<ModelCategory>? mAnyList;
   String? titleName;
   var isScrollable = false;
+  List? operatorList;
 
-  T5GridListing(this.mAnyList, this.isScrollable, this.titleName);
+  T5GridListing(
+      this.mAnyList, this.isScrollable, this.titleName, this.operatorList);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class T5GridListing extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const MobileRecharge()));
+                          builder: (context) => MobileRecharge(operatorList)));
                   break;
                 case 5:
                   Navigator.push(
