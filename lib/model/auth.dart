@@ -14,7 +14,7 @@ class Auth {
   login(String phn, String password) async {
     final prefs = await SharedPreferences.getInstance();
     await getLocation();
-    String uri = "$baseUrl/User_Login";
+    String uri = "$baseUrl/api/User_Auth";
     try {
       http.Response response = await http.post(Uri.parse(uri), headers: {
         'Accept': 'application/json'
@@ -61,7 +61,7 @@ class Auth {
     Map<String, String> authHeaders = {};
     final prefs = await SharedPreferences.getInstance();
     print(prefs.getString('key'));
-    String uri = "$baseUrl/verify_login_otp";
+    String uri = "$baseUrl/api/User_OTP_Auth";
 
     try {
       http.Response response = await http.post(Uri.parse(uri), headers: {

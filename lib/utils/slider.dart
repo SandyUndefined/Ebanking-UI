@@ -7,9 +7,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ModelCategory {
+  late Widget page;
   var name = "";
   Color? color;
-  var icon = "";
+  var image = "";
 }
 
 class T5Slider {

@@ -1,3 +1,4 @@
+import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/data.dart';
 import 'package:apes/utils/images.dart';
 import 'package:apes/utils/slider.dart';
@@ -21,11 +22,12 @@ class _MoreState extends State<More> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: t5DarkNavy,
           elevation: 0,
           leading: InkWell(
             onTap: () => Navigator.pop(context),
             child: Padding(
-              padding: const EdgeInsets.all(15.0),
+              padding: const EdgeInsets.all(18.0),
               child: Image.asset(back),
             ),
           ),
@@ -35,7 +37,7 @@ class _MoreState extends State<More> {
               fontSize: 20,
               fontWeight: FontWeight.w800,
               fontStyle: FontStyle.normal,
-              color: textPrimaryColor,
+              color: Colors.white,
             ),
           ),
         ),
@@ -76,8 +78,8 @@ class DataList extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
       child: Row(
         children: [
-          SvgPicture.asset(
-            model.icon,
+          Image.asset(
+            model.image,
             height: 40,
             width: 40,
           ),

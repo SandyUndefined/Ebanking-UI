@@ -45,6 +45,7 @@ class _LoginState extends State<Login> {
       widget.onSubmit(_pass);
     }
     var data = await Auth().login(_phn, _pass);
+    print("this is data");
     print(data);
     if (data['status'] == "OTP") {
       Auth().saveKey(data['key']);

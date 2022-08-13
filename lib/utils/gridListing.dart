@@ -1,3 +1,4 @@
+import 'package:apes/screens/mobile_recharge.dart';
 import 'package:apes/screens/more.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/constant.dart';
@@ -29,7 +30,14 @@ class T5GridListing extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           return InkWell(
             onTap: () {
+              print(index);
               switch (index) {
+                case 0:
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MobileRecharge()));
+                  break;
                 case 5:
                   Navigator.push(
                       context,
@@ -58,8 +66,8 @@ class T5GridListing extends StatelessWidget {
                     padding: EdgeInsets.all(width / 30),
                     decoration: boxDecoration(
                         bgColor: mAnyList![index].color, radius: 10),
-                    child: SvgPicture.asset(
-                      mAnyList![index].icon,
+                    child: Image.asset(
+                      mAnyList![index].image,
                       color: t5White,
                     ),
                   ),

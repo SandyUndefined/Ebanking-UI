@@ -6,6 +6,7 @@ import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/constant.dart';
 import 'package:apes/utils/custom_bottom_nav_bar.dart';
 import 'package:apes/utils/custom_drawer.dart';
+import 'package:apes/utils/customappbar.dart';
 import 'package:apes/utils/data.dart';
 import 'package:apes/utils/gridListing.dart';
 import 'package:apes/utils/images.dart';
@@ -103,14 +104,13 @@ class _HomePageState extends State<HomePage> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     width = width - 50;
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
     return Observer(
       builder: (_) => Scaffold(
-        backgroundColor: t5DarkNavy,
         key: _scaffoldKey,
-        drawer: isLoading
-            ? null
-            : customDrawer(context, name.capitalizeFirstLetter()),
+        drawer: customDrawer(context, name),
+        appBar: CustomAppBar(state: _scaffoldKey),
+        backgroundColor: t5DarkNavy,
         bottomNavigationBar: isLoading ? null : customBottomNavBar(context),
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
@@ -118,90 +118,62 @@ class _HomePageState extends State<HomePage> {
                 child: Stack(
                   children: <Widget>[
                     Container(
-                      height: 50,
-                      margin: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      padding: const EdgeInsets.only(top: 28),
+                      alignment: Alignment.topLeft,
+                      height: MediaQuery.of(context).size.height - 100,
+                      decoration: BoxDecoration(
+                          color: context.scaffoldBackgroundColor,
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(24),
+                              topRight: Radius.circular(24))),
+                      child: Column(
                         children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              InkWell(
-                                child:
-                                    const Image(image: AssetImage(hamburger)),
-                                onTap: () {
-                                  _scaffoldKey.currentState!.openDrawer();
-                                },
-                              ),
-                              const SizedBox(width: 16),
-                              text("Bharat AEPS",
-                                  textColor: t5White,
-                                  fontSize: textSizeLarge,
-                                  fontFamily: fontMedium)
-                            ],
-                          )
+                          T5SliderWidget(mSliderList, main_bal, aeps_bal),
+                          const SizedBox(height: 20),
+                          Expanded(
+                              child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                text("Banking & Services",
+                                    textColor: textColorPrimary,
+                                    fontSize: textSizeNormal,
+                                    fontFamily: fontMedium),
+                                SizedBox(
+                                  height: height * .35,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(24.0),
+                                    child: T5GridListing(bankingList, false,
+                                        "Banking & Services"),
+                                  ),
+                                ),
+                                text("Recharge & Bill Payments",
+                                    textColor: textColorPrimary,
+                                    fontSize: textSizeNormal,
+                                    fontFamily: fontMedium),
+                                SizedBox(
+                                  height: height * .35,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(24.0),
+                                    child: T5GridListing(rechargeList, false,
+                                        "Recharge & Bill Payments"),
+                                  ),
+                                ),
+                                text("Reports",
+                                    textColor: textColorPrimary,
+                                    fontSize: textSizeNormal,
+                                    fontFamily: fontMedium),
+                                SizedBox(
+                                  height: height * .35,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(24.0),
+                                    child: T5GridListing(
+                                        reportList, false, "Reports"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ))
                         ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 80),
-                      child: Container(
-                        padding: const EdgeInsets.only(top: 28),
-                        alignment: Alignment.topLeft,
-                        height: MediaQuery.of(context).size.height - 100,
-                        decoration: BoxDecoration(
-                            color: context.scaffoldBackgroundColor,
-                            borderRadius: const BorderRadius.only(
-                                topLeft: Radius.circular(24),
-                                topRight: Radius.circular(24))),
-                        child: Column(
-                          children: <Widget>[
-                            T5SliderWidget(mSliderList, main_bal, aeps_bal),
-                            const SizedBox(height: 20),
-                            Expanded(
-                                child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  text("Banking & Services",
-                                      textColor: textColorPrimary,
-                                      fontSize: textSizeNormal,
-                                      fontFamily: fontMedium),
-                                  SizedBox(
-                                    height: height * .35,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(24.0),
-                                      child: T5GridListing(bankingList, false,
-                                          "Banking & Services"),
-                                    ),
-                                  ),
-                                  text("Recharge & Bill Payments",
-                                      textColor: textColorPrimary,
-                                      fontSize: textSizeNormal,
-                                      fontFamily: fontMedium),
-                                  SizedBox(
-                                    height: height * .35,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(24.0),
-                                      child: T5GridListing(rechargeList, false,
-                                          "Recharge & Bill Payments"),
-                                    ),
-                                  ),
-                                  text("Reports",
-                                      textColor: textColorPrimary,
-                                      fontSize: textSizeNormal,
-                                      fontFamily: fontMedium),
-                                  SizedBox(
-                                    height: height * .35,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(24.0),
-                                      child: T5GridListing(
-                                          reportList, false, "Reports"),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ))
-                          ],
-                        ),
                       ),
                     ),
                   ],
