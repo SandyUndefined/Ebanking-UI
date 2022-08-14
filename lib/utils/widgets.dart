@@ -53,6 +53,25 @@ class ButtonState extends State<Button> {
   }
 }
 
+class PlanDialog extends StatelessWidget {
+  const PlanDialog({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      backgroundColor: context.cardColor,
+      titlePadding: EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+      contentPadding: EdgeInsets.symmetric(horizontal: 30, vertical: 16),
+      title: Text(select_plan, style: boldTextStyle(size: 20)),
+      children: [
+        Text(
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+            style: primaryTextStyle()),
+      ],
+    );
+  }
+}
+
 Widget? Function(BuildContext, String) placeholderWidgetFn() =>
     (_, s) => placeholderWidget();
 
@@ -77,6 +96,8 @@ class EditTextField extends StatefulWidget {
   var autovalidateMode;
   var onChanged;
   var input;
+  var isSuffix;
+  var value;
   TextEditingController? mController;
 
   VoidCallback? onPressed;
@@ -94,6 +115,8 @@ class EditTextField extends StatefulWidget {
       var this.onChanged,
       var this.autovalidateMode,
       var this.input,
+      var this.isSuffix,
+      var this.value,
       var this.maxLine = 1});
 
   @override
@@ -107,6 +130,7 @@ class EditTextFieldState extends State<EditTextField> {
   Widget build(BuildContext context) {
     if (!widget.isSecure) {
       return TextFormField(
+        initialValue: widget.value,
         controller: widget.mController,
         autovalidateMode: widget.autovalidateMode,
         validator: widget.validator,
@@ -121,6 +145,7 @@ class EditTextFieldState extends State<EditTextField> {
             color: textPrimaryColor,
             fontFamily: widget.fontFamily),
         decoration: InputDecoration(
+          suffix: widget.isSuffix,
           prefixText: widget.decoration,
           enabledBorder: const UnderlineInputBorder(
             borderSide: BorderSide(color: icon_color),

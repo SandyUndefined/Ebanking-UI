@@ -157,3 +157,5 @@ const logout = "Logout";
 const hint_amount = "Amount";
 const lbl_recharge = "Recharge";
 const select_operator = "Select Operator";
+const browse_plan = "Browse Plan";
+const select_plan = "Select a Plan";

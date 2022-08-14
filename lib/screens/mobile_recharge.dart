@@ -12,6 +12,7 @@ import 'package:apes/utils/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,7 +30,6 @@ class _MobileRechargeState extends State<MobileRecharge> {
   bool _submitted = false;
   String _phn = '';
   String _operator = '';
-
   String _amount = '';
   @override
   void initState() {
@@ -79,6 +79,10 @@ class _MobileRechargeState extends State<MobileRecharge> {
                     children: <Widget>[
                       Text(hint_phone, style: primaryTextStyle(size: 16)),
                       EditTextField(
+                        onChanged: (text) {
+                          print(text);
+                          setState(() => _phn = text);
+                        },
                         input: [FilteringTextInputFormatter.digitsOnly],
                         autovalidateMode: _submitted
                             ? AutovalidateMode.onUserInteraction
@@ -86,6 +90,25 @@ class _MobileRechargeState extends State<MobileRecharge> {
                         isPassword: false,
                         inputType: TextInputType.number,
                         decoration: country_code,
+                        isSuffix: InkWell(
+                          onTap: () async {
+                            final PhoneContact contact =
+                                await FlutterContactPicker.pickPhoneContact();
+                            if (contact != null) {
+                              setState(() {
+                                _phn = contact.phoneNumber!.number
+                                    .removeAllWhiteSpace()
+                                    .replaceFirst('+91', '')
+                                    .toString();
+                                print("this is $_phn");
+                              });
+                            }
+                          },
+                          child: const Icon(
+                            Icons.contacts,
+                            color: t5DarkNavy,
+                          ),
+                        ),
                         validator: (text) {
                           if (text == null || text.isEmpty) {
                             return 'Can\'t be empty';
@@ -95,7 +118,6 @@ class _MobileRechargeState extends State<MobileRecharge> {
                           }
                           return null;
                         },
-                        onChanged: (text) => setState(() => _phn = text),
                       ),
                       const SizedBox(height: 25),
                       CustomDropdown<int>(
@@ -134,6 +156,15 @@ class _MobileRechargeState extends State<MobileRecharge> {
                       const SizedBox(height: 25),
                       Text(hint_amount, style: primaryTextStyle(size: 16)),
                       EditTextField(
+                        isSuffix: InkWell(
+                          onTap: () => showDialog(
+                              context: context,
+                              builder: (BuildContext context) =>
+                                  const PlanDialog()),
+                          child: Text(browse_plan,
+                              style: primaryTextStyle(
+                                  color: t5DarkNavy, size: 16)),
+                        ),
                         input: [FilteringTextInputFormatter.digitsOnly],
                         autovalidateMode: _submitted
                             ? AutovalidateMode.onUserInteraction
