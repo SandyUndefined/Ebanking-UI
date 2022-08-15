@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   GlobalKey<ScaffoldState>? state;
   String? appBarName;
-  CustomAppBar({this.state, this.appBarName});
+  var isback;
+  CustomAppBar({this.state, this.appBarName, var this.isback});
 
   @override
   Size get preferredSize => const Size.fromHeight(80);
@@ -22,12 +23,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: <Widget>[
           Row(
             children: <Widget>[
-              InkWell(
-                child: const Image(image: AssetImage(hamburger)),
-                onTap: () {
-                  state!.currentState!.openDrawer();
-                },
-              ),
+              isback == true
+                  ? InkWell(
+                      child: const Image(
+                        image: AssetImage(back),
+                        width: 20,
+                        height: 20,
+                      ),
+                      onTap: () => Navigator.pop(context),
+                    )
+                  : InkWell(
+                      child: const Image(image: AssetImage(hamburger)),
+                      onTap: () {
+                        state!.currentState!.openDrawer();
+                      },
+                    ),
               const SizedBox(width: 16),
               text(appBarName,
                   textColor: t5White,

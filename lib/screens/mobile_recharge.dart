@@ -59,7 +59,8 @@ class _MobileRechargeState extends State<MobileRecharge> {
       drawer: customDrawer(context, name.capitalizeFirstLetter()),
       backgroundColor: t5DarkNavy,
       key: _scaffoldKey,
-      appBar: CustomAppBar(state: _scaffoldKey, appBarName: "Mobile Recharge"),
+      appBar: CustomAppBar(
+          state: _scaffoldKey, appBarName: "Mobile Recharge", isback: true),
       body: Observer(
         builder: (_) => Container(
           height: MediaQuery.of(context).size.height,
@@ -80,7 +81,6 @@ class _MobileRechargeState extends State<MobileRecharge> {
                       Text(hint_phone, style: primaryTextStyle(size: 16)),
                       EditTextField(
                         onChanged: (text) {
-                          print(text);
                           setState(() => _phn = text);
                         },
                         input: [FilteringTextInputFormatter.digitsOnly],
