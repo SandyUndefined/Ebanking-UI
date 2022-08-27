@@ -16,15 +16,15 @@ import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DTHRecharge extends StatefulWidget {
+class Cabel extends StatefulWidget {
   List? itemData;
-  DTHRecharge(this.itemData);
+  Cabel(this.itemData);
 
   @override
-  State<DTHRecharge> createState() => _DTHRechargeState();
+  State<Cabel> createState() => _CabelState();
 }
 
-class _DTHRechargeState extends State<DTHRecharge> {
+class _CabelState extends State<Cabel> {
   String name = "";
   final _formKey = GlobalKey<FormState>();
   bool _submitted = false;
@@ -60,7 +60,7 @@ class _DTHRechargeState extends State<DTHRecharge> {
       key: _scaffoldKey,
       appBar: CustomAppBar(
         state: _scaffoldKey,
-        appBarName: "DTH Recharge",
+        appBarName: "Cabel TV Recharge",
         isback: true,
       ),
       body: Observer(

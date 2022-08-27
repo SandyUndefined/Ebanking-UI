@@ -32,4 +32,37 @@ class UserData {
     }
     return prepaidList;
   }
+
+  getDTH() async {
+    var data = await fetchOperator();
+    var dthList = [];
+    for (var i = 0; i < data.length; i++) {
+      if (data[i]["SERVICETYPE"] == "DTH") {
+        dthList.add(data[i]);
+      }
+    }
+    return dthList;
+  }
+
+  getCabel() async {
+    var data = await fetchOperator();
+    var cabelList = [];
+    for (var i = 0; i < data.length; i++) {
+      if (data[i]["SERVICETYPE"] == "Cabel") {
+        cabelList.add(data[i]);
+      }
+    }
+    return cabelList;
+  }
+
+  getElectric() async {
+    var data = await fetchOperator();
+    var electricityList = [];
+    for (var i = 0; i < data.length; i++) {
+      if (data[i]["SERVICETYPE"] == "Electricity") {
+        electricityList.add(data[i]);
+      }
+    }
+    return electricityList;
+  }
 }
