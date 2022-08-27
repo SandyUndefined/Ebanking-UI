@@ -48,7 +48,7 @@ class UserData {
     var data = await fetchOperator();
     var cabelList = [];
     for (var i = 0; i < data.length; i++) {
-      if (data[i]["SERVICETYPE"] == "Cabel") {
+      if (data[i]["SERVICETYPE"] == "Cable") {
         cabelList.add(data[i]);
       }
     }
@@ -64,5 +64,16 @@ class UserData {
       }
     }
     return electricityList;
+  }
+
+  getBroadband() async {
+    var data = await fetchOperator();
+    var broadbandList = [];
+    for (var i = 0; i < data.length; i++) {
+      if (data[i]["SERVICETYPE"] == "Broadband") {
+        broadbandList.add(data[i]);
+      }
+    }
+    return broadbandList;
   }
 }

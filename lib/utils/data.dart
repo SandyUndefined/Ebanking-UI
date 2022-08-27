@@ -94,29 +94,29 @@ List<ModelCategory> getRechargeItems() {
   category5.image = t5_dollar_exchange;
   list.add(category5);
 
-  var category = ModelCategory();
-  category.name = "More";
-  category.color = t5Cat6;
-  category.image = t5_circle;
-  list.add(category);
+  // var category = ModelCategory();
+  // category.name = "More";
+  // category.color = t5Cat6;
+  // category.image = t5_circle;
+  // list.add(category);
 
-  var category6 = ModelCategory();
-  category6.name = "Mini Statement";
-  category6.color = t5Cat3;
-  category6.image = t5_coupon;
-  list.add(category6);
+  // var category6 = ModelCategory();
+  // category6.name = "Mini Statement";
+  // category6.color = t5Cat3;
+  // category6.image = t5_coupon;
+  // list.add(category6);
 
-  var category7 = ModelCategory();
-  category7.name = "Aadhar Pay";
-  category7.color = t5Cat4;
-  category7.image = t5_invoice;
-  list.add(category7);
+  // var category7 = ModelCategory();
+  // category7.name = "Aadhar Pay";
+  // category7.color = t5Cat4;
+  // category7.image = t5_invoice;
+  // list.add(category7);
 
-  var category8 = ModelCategory();
-  category8.name = "Money Transfer";
-  category8.color = t5Cat5;
-  category8.image = t5_dollar_exchange;
-  list.add(category8);
+  // var category8 = ModelCategory();
+  // category8.name = "Money Transfer";
+  // category8.color = t5Cat5;
+  // category8.image = t5_dollar_exchange;
+  // list.add(category8);
 
   return list;
 }
