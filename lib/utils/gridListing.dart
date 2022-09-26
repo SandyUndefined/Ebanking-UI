@@ -1,4 +1,5 @@
 import 'package:apes/model/user.dart';
+import 'package:apes/screens/aadharwithdrawl.dart';
 import 'package:apes/screens/broadband.dart';
 import 'package:apes/screens/cabel.dart';
 import 'package:apes/screens/dth.dart';
@@ -18,8 +19,9 @@ class T5GridListing extends StatefulWidget {
   List<ModelCategory>? mAnyList;
   String? titleName;
   var isScrollable = false;
+  var pos;
 
-  T5GridListing(this.mAnyList, this.isScrollable, this.titleName);
+  T5GridListing(this.mAnyList, this.isScrollable, this.titleName, this.pos);
 
   @override
   State<T5GridListing> createState() => _T5GridListingState();
@@ -39,11 +41,13 @@ class _T5GridListingState extends State<T5GridListing> {
   }
 
   loadList() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     var operatorList = await UserData().getPrepaid();
     var dthsList = await UserData().getDTH();
     var cabelTV = await UserData().getCabel();
     var electricity = await UserData().getElectric();
     var broadband = await UserData().getBroadband();
+    var onBoard = prefs.getString("Onboard");
     setState(() {
       prepaidList = operatorList;
       dthList = dthsList;
@@ -68,48 +72,95 @@ class _T5GridListingState extends State<T5GridListing> {
           return InkWell(
             onTap: () {
               print(index);
-              switch (index) {
-                case 0:
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MobileRecharge(prepaidList)));
-                  break;
-                case 1:
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DTHRecharge(dthList)));
-                  break;
-                case 2:
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Cabel(cabelList)));
-                  break;
-                case 3:
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Electricity(electricList)));
-                  break;
-                case 4:
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => Broadband(broadbandList)));
-                  break;
-                case 5:
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => More(
-                                widget.mAnyList,
-                                widget.titleName,
-                              )));
-                  break;
-                default:
-              }
+              if (widget.pos == 0) {
+                switch (index) {
+                  case 0:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => onBoard == 0
+                                ? DTHRecharge(dthList)
+                                : AadharWithdrawl()));
+                    break;
+                  case 1:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DTHRecharge(dthList)));
+                    break;
+                  case 2:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Cabel(cabelList)));
+                    break;
+                  case 3:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Electricity(electricList)));
+                    break;
+                  case 4:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Broadband(broadbandList)));
+                    break;
+                  case 5:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => More(
+                                  widget.mAnyList,
+                                  widget.titleName,
+                                )));
+                    break;
+                  default:
+                }
+              } else if (widget.pos == 1) {
+                switch (index) {
+                  case 0:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MobileRecharge(prepaidList)));
+                    break;
+                  case 1:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DTHRecharge(dthList)));
+                    break;
+                  case 2:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Cabel(cabelList)));
+                    break;
+                  case 3:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Electricity(electricList)));
+                    break;
+                  case 4:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Broadband(broadbandList)));
+                    break;
+                  case 5:
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => More(
+                                  widget.mAnyList,
+                                  widget.titleName,
+                                )));
+                    break;
+                  default:
+                }
+              } else if (widget.pos == 2) {}
             },
             child: Container(
               alignment: Alignment.center,

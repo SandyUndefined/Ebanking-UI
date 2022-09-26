@@ -56,6 +56,7 @@ class _LoginState extends State<Login> {
       floatingSnackBar(context, "(data['result'])");
       print(data['result']);
     } else if (data['status'] == 'success') {
+      Auth().saveOnboard(data['ONBOARD']);
       Auth().saveLoginKey(data['Login_Key']);
       Auth().saveSessionId(data['SESSION_ID']);
       Auth().saveName(data['Name']);

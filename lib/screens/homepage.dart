@@ -142,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(24.0),
                                     child: T5GridListing(bankingList, false,
-                                        "Banking & Services"),
+                                        "Banking & Services", 0),
                                   ),
                                 ),
                                 text("Recharge & Bill Payments",
@@ -154,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(24.0),
                                     child: T5GridListing(rechargeList, false,
-                                        "Recharge & Bill Payments"),
+                                        "Recharge & Bill Payments", 1),
                                   ),
                                 ),
                                 text("Reports",
@@ -166,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(24.0),
                                     child: T5GridListing(
-                                        reportList, false, "Reports"),
+                                        reportList, false, "Reports", 2),
                                   ),
                                 ),
                               ],

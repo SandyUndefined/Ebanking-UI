@@ -91,6 +91,11 @@ class Auth {
     prefs.setString('key', key);
   }
 
+  saveOnboard(String data) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('Onboard', data);
+  }
+
   saveName(String name) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('name', name);
