@@ -76,4 +76,34 @@ class UserData {
     }
     return broadbandList;
   }
+
+  getBank() async {
+    String bankListUrl = "https://aeps.bharataeps.com/api/aeps_bank_list";
+    List bankList = [];
+    final prefs = await SharedPreferences.getInstance();
+    String key = prefs.getString('authKey').toString();
+    String session = prefs.getString('sessionKey').toString();
+    try {
+      http.Response response = await http.get(Uri.parse(bankListUrl), headers: {
+        'Accept': 'application/json',
+        'Authorization': key,
+        'Token': session
+      });
+      List bankData = json.decode(response.body);
+      // for (var i = 0; i < bankData.length; i++) {
+      //   print(bankData[i]);
+      //   // for (var i = 0; i < count; i++) {
+
+      //   // }
+      //   // if (bankData[i] == "BANK_NAME") {
+      //   // print(bankData[0]["BANK_NAME"]);
+      //   // bankList.add(bankData[0]["BANK_NAME"]);
+      //   // }
+      // }
+      return bankData;
+    } catch (e) {
+      print("this is $e");
+      return e;
+    }
+  }
 }

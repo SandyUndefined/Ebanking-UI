@@ -33,6 +33,7 @@ class _T5GridListingState extends State<T5GridListing> {
   List cabelList = [];
   List electricList = [];
   List broadbandList = [];
+  String? onBoardData;
 
   @override
   void initState() {
@@ -54,6 +55,7 @@ class _T5GridListingState extends State<T5GridListing> {
       cabelList = cabelTV;
       electricList = electricity;
       broadbandList = broadband;
+      onBoardData = onBoard!;
     });
   }
 
@@ -78,7 +80,7 @@ class _T5GridListingState extends State<T5GridListing> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => onBoard == 0
+                            builder: (context) => onBoardData == 0
                                 ? DTHRecharge(dthList)
                                 : AadharWithdrawl()));
                     break;
