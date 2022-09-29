@@ -1,10 +1,12 @@
 import 'package:apes/model/user.dart';
+import 'package:apes/screens/aadharpay.dart';
 import 'package:apes/screens/aadharwithdrawl.dart';
 import 'package:apes/screens/balanceenquiry.dart';
 import 'package:apes/screens/broadband.dart';
 import 'package:apes/screens/cabel.dart';
 import 'package:apes/screens/dth.dart';
 import 'package:apes/screens/electric.dart';
+import 'package:apes/screens/ministatement.dart';
 import 'package:apes/screens/mobile_recharge.dart';
 import 'package:apes/screens/more.dart';
 import 'package:apes/utils/colors.dart';
@@ -101,13 +103,21 @@ class _T5GridListingState extends State<T5GridListing> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Cabel(cabelList)));
+                            builder: (context) => onBoardData == 0
+                                ? DTHRecharge(dthList)
+                                : MiniStatement(onSubmit: (String value) {
+                                    print(value);
+                                  })));
                     break;
                   case 3:
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Electricity(electricList)));
+                            builder: (context) => onBoardData == 0
+                                ? DTHRecharge(dthList)
+                                : AadharPay(onSubmit: (String value) {
+                                    print(value);
+                                  })));
                     break;
                   case 4:
                     Navigator.push(
