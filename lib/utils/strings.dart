@@ -164,3 +164,4 @@ const select_bank = "Select Bank";
 const select_transaction_type = "Select Transaction Type";
 const select_biometric_device = " Select Biometric Device";
 const scan = "Scan";
+const enter_amount = "Enter Amount";

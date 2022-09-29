@@ -30,34 +30,34 @@ List<ModelCategory> getBankingItems() {
   list.add(category4);
 
   var category5 = ModelCategory();
-  category5.name = "Money Transfer";
+  category5.name = "DMT";
   category5.color = t5Cat5;
   category5.image = moneyTransfer;
   list.add(category5);
 
-  var category = ModelCategory();
-  category.name = "AEPS";
-  category.color = t5Cat6;
-  category.image = more;
-  list.add(category);
+  // var category = ModelCategory();
+  // category.name = "AEPS";
+  // category.color = t5Cat6;
+  // category.image = more;
+  // list.add(category);
 
-  var category6 = ModelCategory();
-  category6.name = "Wallet Transfer";
-  category6.color = t5Cat3;
-  category6.image = walletTransfer;
-  list.add(category6);
+  // var category6 = ModelCategory();
+  // category6.name = "Wallet Transfer";
+  // category6.color = t5Cat3;
+  // category6.image = walletTransfer;
+  // list.add(category6);
 
-  var category7 = ModelCategory();
-  category7.name = "Micro ATM";
-  category7.color = t5Cat4;
-  category7.image = microATM;
-  list.add(category7);
+  // var category7 = ModelCategory();
+  // category7.name = "Micro ATM";
+  // category7.color = t5Cat4;
+  // category7.image = microATM;
+  // list.add(category7);
 
-  var category8 = ModelCategory();
-  category8.name = "Settlement";
-  category8.color = t5Cat5;
-  category8.image = deal;
-  list.add(category8);
+  // var category8 = ModelCategory();
+  // category8.name = "Settlement";
+  // category8.color = t5Cat5;
+  // category8.image = deal;
+  // list.add(category8);
 
   return list;
 }

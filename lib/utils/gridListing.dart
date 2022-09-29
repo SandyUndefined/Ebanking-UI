@@ -82,7 +82,9 @@ class _T5GridListingState extends State<T5GridListing> {
                         MaterialPageRoute(
                             builder: (context) => onBoardData == 0
                                 ? DTHRecharge(dthList)
-                                : AadharWithdrawl()));
+                                : AadharWithdrawl(onSubmit: (String value) {
+                                    print(value);
+                                  })));
                     break;
                   case 1:
                     Navigator.push(
