@@ -1,5 +1,6 @@
 import 'package:apes/model/user.dart';
 import 'package:apes/screens/aadharwithdrawl.dart';
+import 'package:apes/screens/balanceenquiry.dart';
 import 'package:apes/screens/broadband.dart';
 import 'package:apes/screens/cabel.dart';
 import 'package:apes/screens/dth.dart';
@@ -90,7 +91,11 @@ class _T5GridListingState extends State<T5GridListing> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => DTHRecharge(dthList)));
+                            builder: (context) => onBoardData == 0
+                                ? DTHRecharge(dthList)
+                                : BalanceEnquiry(onSubmit: (String value) {
+                                    print(value);
+                                  })));
                     break;
                   case 2:
                     Navigator.push(
