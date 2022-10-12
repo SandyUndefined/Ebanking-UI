@@ -31,7 +31,6 @@ class _MiniStatementState extends State<MiniStatement> {
   String _aadharNumber = "";
   String _phn = '';
   String _bank = '';
-  String _device = '';
 
   bool _submitted = false;
   bool isLoading = true;
@@ -63,7 +62,6 @@ class _MiniStatementState extends State<MiniStatement> {
       widget.onSubmit(_aadharNumber);
       widget.onSubmit(_phn);
       widget.onSubmit(_bank);
-      widget.onSubmit(_device);
     }
   }
 
@@ -204,50 +202,11 @@ class _MiniStatementState extends State<MiniStatement> {
                                 ),
                               ),
                               const SizedBox(height: 25),
-                              Text(select_biometric_device,
-                                  style: primaryTextStyle(size: 16)),
-                              const SizedBox(height: 25),
-                              CustomDropdown<int>(
-                                onChange: (int value, int index) =>
-                                    setState(() {
-                                  _device = value.toString();
-                                }),
-                                dropdownButtonStyle: DropdownButtonStyle(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 40,
-                                  elevation: 1,
-                                  backgroundColor: Colors.white,
-                                  primaryColor: Colors.black87,
-                                ),
-                                dropdownStyle: DropdownStyle(
-                                  borderRadius: BorderRadius.circular(8),
-                                  elevation: 6,
-                                  padding: const EdgeInsets.all(5),
-                                ),
-                                items: getDevice.map((item) {
-                                  return DropdownItem(
-                                    value: item.code,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        item.name,
-                                        style: const TextStyle(fontSize: 18),
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                                child: const Text(
-                                  select_transaction_type,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                              const SizedBox(height: 25),
                               Button(
                                 textContent: scan,
                                 onPressed: _aadharNumber.isNotEmpty &&
                                         _phn.isNotEmpty &&
-                                        _bank.isNotEmpty &&
-                                        _device.isNotEmpty
+                                        _bank.isNotEmpty
                                     ? _submit
                                     : null,
                               ),

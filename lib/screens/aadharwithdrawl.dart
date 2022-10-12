@@ -1,6 +1,5 @@
 import 'package:apes/model/user.dart';
-import 'package:apes/utils/bank_type.dart';
-import 'package:apes/utils/biometric_device.dart';
+import 'package:apes/screens/resulttest.dart';
 import 'package:apes/utils/colors.dart';
 import 'package:apes/utils/custom_drawer.dart';
 import 'package:apes/utils/custom_dropdown.dart';
@@ -8,11 +7,8 @@ import 'package:apes/utils/customappbar.dart';
 import 'package:apes/utils/progress_bar.dart';
 import 'package:apes/utils/strings.dart';
 import 'package:apes/utils/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:fluttercontactpicker/fluttercontactpicker.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -26,13 +22,11 @@ class AadharWithdrawl extends StatefulWidget {
 
 class _AadharWithdrawlState extends State<AadharWithdrawl> {
   final _formKey = GlobalKey<FormState>();
-
   String name = '';
   String _aadharNumber = "";
   String _phn = '';
   String _bank = '';
   String _amount = '';
-  String _device = '';
 
   bool _submitted = false;
   bool isLoading = true;
@@ -65,8 +59,9 @@ class _AadharWithdrawlState extends State<AadharWithdrawl> {
       widget.onSubmit(_phn);
       widget.onSubmit(_bank);
       widget.onSubmit(_amount);
-      widget.onSubmit(_device);
     }
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => ResultTest()));
   }
 
   @override
@@ -225,51 +220,12 @@ class _AadharWithdrawlState extends State<AadharWithdrawl> {
                                     setState(() => _amount = text),
                               ),
                               const SizedBox(height: 25),
-                              Text(select_biometric_device,
-                                  style: primaryTextStyle(size: 16)),
-                              const SizedBox(height: 25),
-                              CustomDropdown<int>(
-                                onChange: (int value, int index) =>
-                                    setState(() {
-                                  _device = value.toString();
-                                }),
-                                dropdownButtonStyle: DropdownButtonStyle(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 40,
-                                  elevation: 1,
-                                  backgroundColor: Colors.white,
-                                  primaryColor: Colors.black87,
-                                ),
-                                dropdownStyle: DropdownStyle(
-                                  borderRadius: BorderRadius.circular(8),
-                                  elevation: 6,
-                                  padding: const EdgeInsets.all(5),
-                                ),
-                                items: getDevice.map((item) {
-                                  return DropdownItem(
-                                    value: item.code,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        item.name,
-                                        style: const TextStyle(fontSize: 18),
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                                child: const Text(
-                                  select_transaction_type,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                              const SizedBox(height: 25),
                               Button(
                                 textContent: scan,
                                 onPressed: _aadharNumber.isNotEmpty &&
                                         _phn.isNotEmpty &&
                                         _bank.isNotEmpty &&
-                                        _amount.isNotEmpty &&
-                                        _device.isNotEmpty
+                                        _amount.isNotEmpty
                                     ? _submit
                                     : null,
                               ),

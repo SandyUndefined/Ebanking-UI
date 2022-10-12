@@ -29,11 +29,11 @@ List<ModelCategory> getBankingItems() {
   category4.image = aadharWithdrawl;
   list.add(category4);
 
-  var category5 = ModelCategory();
-  category5.name = "DMT";
-  category5.color = t5Cat5;
-  category5.image = moneyTransfer;
-  list.add(category5);
+  // var category5 = ModelCategory();
+  // category5.name = "DMT";
+  // category5.color = t5Cat5;
+  // category5.image = moneyTransfer;
+  // list.add(category5);
 
   // var category = ModelCategory();
   // category.name = "AEPS";

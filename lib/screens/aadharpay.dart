@@ -32,7 +32,6 @@ class _AadharPayState extends State<AadharPay> {
   String _phn = '';
   String _bank = '';
   String _amount = '';
-  String _device = '';
 
   bool _submitted = false;
   bool isLoading = true;
@@ -65,7 +64,6 @@ class _AadharPayState extends State<AadharPay> {
       widget.onSubmit(_phn);
       widget.onSubmit(_bank);
       widget.onSubmit(_amount);
-      widget.onSubmit(_device);
     }
   }
 
@@ -79,8 +77,8 @@ class _AadharPayState extends State<AadharPay> {
       drawer: customDrawer(context, name.capitalizeFirstLetter()),
       backgroundColor: t5DarkNavy,
       key: _scaffoldKey,
-      appBar:
-          CustomAppBar(state: _scaffoldKey, appBarName: "AEPS", isback: true),
+      appBar: CustomAppBar(
+          state: _scaffoldKey, appBarName: "Aadhar Pay", isback: true),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Observer(
@@ -225,51 +223,12 @@ class _AadharPayState extends State<AadharPay> {
                                     setState(() => _amount = text),
                               ),
                               const SizedBox(height: 25),
-                              Text(select_biometric_device,
-                                  style: primaryTextStyle(size: 16)),
-                              const SizedBox(height: 25),
-                              CustomDropdown<int>(
-                                onChange: (int value, int index) =>
-                                    setState(() {
-                                  _device = value.toString();
-                                }),
-                                dropdownButtonStyle: DropdownButtonStyle(
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 40,
-                                  elevation: 1,
-                                  backgroundColor: Colors.white,
-                                  primaryColor: Colors.black87,
-                                ),
-                                dropdownStyle: DropdownStyle(
-                                  borderRadius: BorderRadius.circular(8),
-                                  elevation: 6,
-                                  padding: const EdgeInsets.all(5),
-                                ),
-                                items: getDevice.map((item) {
-                                  return DropdownItem(
-                                    value: item.code,
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(
-                                        item.name,
-                                        style: const TextStyle(fontSize: 18),
-                                      ),
-                                    ),
-                                  );
-                                }).toList(),
-                                child: const Text(
-                                  select_transaction_type,
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ),
-                              const SizedBox(height: 25),
                               Button(
                                 textContent: scan,
                                 onPressed: _aadharNumber.isNotEmpty &&
                                         _phn.isNotEmpty &&
                                         _bank.isNotEmpty &&
-                                        _amount.isNotEmpty &&
-                                        _device.isNotEmpty
+                                        _amount.isNotEmpty
                                     ? _submit
                                     : null,
                               ),

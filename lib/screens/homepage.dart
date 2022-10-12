@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                               child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                text("Banking & Services",
+                                text("Aadhar Enabled Payment System",
                                     textColor: textColorPrimary,
                                     fontSize: textSizeNormal,
                                     fontFamily: fontMedium),
